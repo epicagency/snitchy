@@ -1,8 +1,8 @@
 {
-  "name": "analytics-epic",
+  "name": "epic-snitchy",
   "version": "0.0.1",
-  "description": "Google analytics manager for EPIC projects",
-  "homepage": "https://git.epic.net/epic-toolbox/analytics-epic",
+  "description": "Google analytics for EPIC projects",
+  "homepage": "https://git.epic.net/epic/snitchy",
   "main": "lib",
   "scripts": {
     "build": "npm run lint && npm run clean && webpack --progress --profile",
@@ -14,12 +14,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.epic.net:epic-toolbox/analytics-epic.git"
+    "url": "git@git.epic.net:epic/snitchy.git"
   },
   "author": {
     "name": "Thierry Michel",
     "email": "thierry@epic.net",
     "url": "http://epic.net"
+  },
+  "keywords": [
+    "epic",
+    "google",
+    "analytics",
+    "tracking"
+  ],
+  "bugs": {
+    "url": "https://git.epic.net/epic/snitchy/issues"
   },
   "license": "SEE LICENSE IN UNLICENSE",
   "devDependencies": {

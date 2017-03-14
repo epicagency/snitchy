@@ -1,1 +1,3 @@
-# Analytics for EPIC projects
+# Snitchy
+
+Google Analytics for EPIC projects

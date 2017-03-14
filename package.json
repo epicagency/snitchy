@@ -11,5 +11,11 @@
     "url": "git@git.epic.net:epic-toolbox/analytics-epic.git"
   },
   "author": "Thierry Michel <thierry@epic.net>",
-  "license": "SEE LICENSE IN UNLICENSE"
+  "license": "SEE LICENSE IN UNLICENSE",
+  "devDependencies": {
+    "autotrack": "^2.1.0",
+    "babel-eslint": "^7.1.1",
+    "babel-preset-env": "^1.2.1",
+    "eslint": "^3.17.1"
+  }
 }

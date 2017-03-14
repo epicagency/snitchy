@@ -2,20 +2,34 @@
   "name": "analytics-epic",
   "version": "0.0.1",
   "description": "Google analytics manager for EPIC projects",
+  "homepage": "https://git.epic.net/epic-toolbox/analytics-epic",
   "main": "lib",
   "scripts": {
+    "build": "npm run lint && npm run clean && webpack --progress --profile",
+    "clean": "rm -rf lib/*",
+    "lint": "eslint src/** || exit 0",
+    "prepublish": "npm run build",
+    "start": "npm run lint && webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git@git.epic.net:epic-toolbox/analytics-epic.git"
   },
-  "author": "Thierry Michel <thierry@epic.net>",
+  "author": {
+    "name": "Thierry Michel",
+    "email": "thierry@epic.net",
+    "url": "http://epic.net"
+  },
   "license": "SEE LICENSE IN UNLICENSE",
   "devDependencies": {
     "autotrack": "^2.1.0",
+    "babel-core": "^6.24.0",
     "babel-eslint": "^7.1.1",
+    "babel-loader": "^6.4.0",
     "babel-preset-env": "^1.2.1",
-    "eslint": "^3.17.1"
+    "eslint": "^3.17.1",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.2"
   }
 }

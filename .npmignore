@@ -1,0 +1,7 @@
+### Custom ###
+
+.babelrc
+.editorconfig
+.eslintrc.json
+/.vscode
+/src

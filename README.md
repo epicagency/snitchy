@@ -1,6 +1,9 @@
 # Snitchy
 
-Google Analytics for EPIC projects
+Tracking for EPIC projects
+
+- Google Analytics
+- Sentry
 
 ## Getting started
 
@@ -17,10 +20,19 @@ Create some `assets/scripts/tracking.js` file.
 ```js
 import Snitchy
 
-const config = {
-  test: 'UA-XXXXX-Y',
-  prod: 'UA-XXXXX-z',
+// Set ga and/or sentry configurations.
+const opts = {
+  ga: {
+    test: 'UA-12345-1',
+    prod: 'UA-12345-2',
+  },
+  sentry: {
+    key: 'f8528a79efae426e860862b1547bd23b',
+    project: '15',
+  },
 }
 
-new Snitchy(config)
+new Snitchy(opts, process.env.NODE_ENV) // production or anything, provided by Gulp + envify
 ```
+
+> Analytics part is based on the amazing work of [@philipwalton](https://github.com/philipwalton)

@@ -1,237 +1,83 @@
-/* global ga */
-import 'autotrack/lib/plugins/clean-url-tracker'
-import 'autotrack/lib/plugins/max-scroll-tracker'
-import 'autotrack/lib/plugins/outbound-link-tracker'
-import 'autotrack/lib/plugins/page-visibility-tracker'
-// !DEV
-// import 'autotrack/lib/plugins/url-change-tracker'
+import Analytics from './Analytics'
+import Sentry from './Sentry'
 
 /**
- * Creates a ga() proxy function that calls commands on all passed trackers.
- * @param {Array} trackers an array or objects containing the `name` and
- *     `trackingId` fields.
- * @return {Function} The proxied ga() function.
- */
-/* eslint-disable */
-const createGaProxy = (trackers) => {
-  return (command, ...args) => {
-    for (const {name} of trackers) {
-      if (typeof command === 'function') {
-        ga(() => {
-          command(ga.getByName(name))
-        });
-      } else {
-        ga(`${name}.${command}`, ...args)
-      }
-    }
-  }
-}
-/* eslint-disable */
-
-/**
- * Generates a UUID.
- * https://gist.github.com/jed/982883
- * @param {string|undefined=} a placeholder
- * @return {string} UUID
- */
-const uuid = function b(a) {
-  return a ? (a ^ Math.random() * 16 >> a / 4).toString(16) :
-      ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, b)
-}
-
-/**
- * Accepts a custom dimension or metric and returns it's numerical index.
- * @param {string} definition The definition string (e.g. 'dimension1').
- * @return {number} The definition index.
- */
-const getDefinitionIndex = (definition) => +/\d+$/.exec(definition)[0]
-
-
-/**
- * Snitchy, for EPIC analytics
+ * Snitchy, for EPIC tracking.
  *
  * @class Snitchy
  */
 class Snitchy {
   /**
    * Creates an instance of Snitchy.
-   * @param {Object} config test and prod tracking id
-   * @param {string} config.test test tracking id
-   * @param {string} config.prod prod tracking id
+   * @param {Object} opts options for tools configuration
+   * @param {string} env environment: production, staging, dev, serve
    *
    * @memberOf Snitchy
    */
-  constructor(config) {
-    // !DEV add tests to check/valid config
-    // UA-NNNNNN-N
-    this.TRACKING_VERSION = '1'
-    this.ALL_TRACKERS = [
-      {
-        name: 'test',
-        trackingId: config.test,
-      },
-      {
-        name: 'prod',
-        trackingId: config.prod,
-      },
-    ]
-    this.TEST_TRACKERS = this.ALL_TRACKERS.filter(({name}) =>
-      (/test/).test(name))
-    this.NULL_VALUE = '(not set)'
+  constructor(opts, env = 'dev') {
+    console.info('Snitchy ready 🚀 !')
 
-    this.dimensions = {
-      TRACKING_VERSION: 'dimension1',
-      CLIENT_ID: 'dimension2',
-      WINDOW_ID: 'dimension3',
-      HIT_ID: 'dimension4',
-      HIT_TIME: 'dimension5',
-      HIT_TYPE: 'dimension6',
-      HIT_SOURCE: 'dimension7',
-      VISIBILITY_STATE: 'dimension8',
-      URL_QUERY_PARAMS: 'dimension9',
+    if (opts.ga) {
+      this.initAnalytics(opts.ga)
     }
 
-    this.metrics = {
-      RESPONSE_END_TIME: 'metric1',
-      DOM_LOAD_TIME: 'metric2',
-      WINDOW_LOAD_TIME: 'metric3',
-      PAGE_VISIBLE: 'metric4',
-      MAX_SCROLL_PERCENTAGE: 'metric5',
+    if (opts.sentry && env === 'production') {
+      this.initSentry(opts.sentry)
     }
-
-    this.gaAll = createGaProxy(this.ALL_TRACKERS)
-    this.gaTest = createGaProxy(this.TEST_TRACKERS)
-
-    this.init()
   }
 
   /**
-   * Set configuration and init
+   * Init Google Analytics.
    *
-   * @param {Object} config test and prod tracking id
+   * @param {Object} config GA config
+   * @param {string} config.test GA test tracking id
+   * @param {string} config.prod GA prod tracking id
    * @returns {undefined}
    *
    * @memberOf Snitchy
    */
-  init() {
-    console.info('Snitchy ready 🚀 !', this)
-    // Initialize the command queue in case analytics.js hasn't loaded yet.
-    window.ga = window.ga || ((...args) => (ga.q = ga.q || []).push(args))
-
-    this.createTrackers()
-    // this.trackErrors()
-    this.trackCustomDimensions()
-    this.requireAutotrackPlugins()
-    this.sendInitialPageview()
-    this.sendNavigationTimingMetrics()
+  initAnalytics(config) {
+    this.ga = new Analytics(config)
   }
 
-  createTrackers() {
-    for (const tracker of this.ALL_TRACKERS) {
-      window.ga('create', tracker.trackingId, 'auto', tracker.name)
-    }
-
-    // Ensures all hits are sent via `navigator.sendBeacon()`.
-    this.gaAll('set', 'transport', 'beacon')
+  /**
+   * Proxied ga() function that calls commands on all trackers.
+   *
+   * @param {string} command ga command
+   * @param {any} args ga arguments
+   * @returns {undefined}
+   *
+   * @memberOf Snitchy
+   */
+  gaAll(command, ...args) {
+    this.gaAll.gaAll(command, ...args)
   }
 
-  trackCustomDimensions() {
-    // Sets a default dimension value for all custom dimensions to ensure
-    // that every dimension in every hit has *some* value. This is necessary
-    // because Google Analytics will drop rows with empty dimension values
-    // in your reports.
-    Object.keys(this.dimensions).forEach((key) => {
-      this.gaAll('set', this.dimensions[key], this.NULL_VALUE)
-    })
-
-    // Adds tracking of dimensions known at page load time.
-    this.gaAll((tracker) => {
-      tracker.set({
-        [this.dimensions.TRACKING_VERSION]: this.TRACKING_VERSION,
-        [this.dimensions.CLIENT_ID]: tracker.get('clientId'),
-        [this.dimensions.WINDOW_ID]: uuid(),
-      })
-    })
-
-    // Adds tracking to record each the type, time, uuid, and visibility state
-    // of each hit immediately before it's sent.
-    this.gaAll((tracker) => {
-      const originalBuildHitTask = tracker.get('buildHitTask')
-      tracker.set('buildHitTask', (model) => {
-        const qt = model.get('queueTime') || 0
-        model.set(this.dimensions.HIT_TIME, String(new Date - qt), true)
-        model.set(this.dimensions.HIT_ID, uuid(), true)
-        model.set(this.dimensions.HIT_TYPE, model.get('hitType'), true)
-        model.set(this.dimensions.VISIBILITY_STATE, document.visibilityState, true)
-
-        originalBuildHitTask(model)
-      })
-    })
+  /**
+   * Proxied ga() function that calls commands on all TEST trackers.
+   *
+   * @param {string} command ga command
+   * @param {any} args ga arguments
+   * @returns {undefined}
+   *
+   * @memberOf Snitchy
+   */
+  gaTest(command, ...args) {
+    this.gaTest.gaAll(command, ...args)
   }
 
-  requireAutotrackPlugins() {
-    this.gaAll('require', 'cleanUrlTracker', {
-      stripQuery: true,
-      queryDimensionIndex: getDefinitionIndex(this.dimensions.URL_QUERY_PARAMS),
-      trailingSlash: 'remove',
-    })
-    this.gaTest('require', 'maxScrollTracker', {
-      sessionTimeout: 30,
-      timeZone: 'America/Los_Angeles',
-      maxScrollMetricIndex: getDefinitionIndex(this.metrics.MAX_SCROLL_PERCENTAGE),
-    })
-    this.gaAll('require', 'outboundLinkTracker', {
-      events: ['click', 'contextmenu'],
-    })
-    this.gaTest('require', 'pageVisibilityTracker', {
-      visibleMetricIndex: getDefinitionIndex(this.metrics.PAGE_VISIBLE),
-      sessionTimeout: 30,
-      timeZone: 'Europe/Brussels',
-      fieldsObj: {[this.dimensions.HIT_SOURCE]: 'pageVisibilityTracker'},
-    })
-    // !DEV
-    // this.gaAll('require', 'urlChangeTracker', {
-    //   fieldsObj: {[this.dimensions.HIT_SOURCE]: 'urlChangeTracker'},
-    // });
-  }
-
-  sendInitialPageview() {
-    this.gaAll('send', 'pageview', {[this.dimensions.HIT_SOURCE]: 'pageload'})
-  }
-
-  sendNavigationTimingMetrics() {
-    // Only track performance in supporting browsers.
-    if (!(window.performance && window.performance.timing)) return;
-
-    // If the window hasn't loaded, run this function after the `load` event.
-    if (document.readyState != 'complete') {
-      window.addEventListener('load', this.sendNavigationTimingMetrics.bind(this));
-      return;
-    }
-
-    const nt = performance.timing;
-    const navStart = nt.navigationStart;
-
-    const responseEnd = Math.round(nt.responseEnd - navStart);
-    const domLoaded = Math.round(nt.domContentLoadedEventStart - navStart);
-    const windowLoaded = Math.round(nt.loadEventStart - navStart);
-
-    // In some edge cases browsers return very obviously incorrect NT values,
-    // e.g. 0, negative, or future times. This validates values before sending.
-    const allValuesAreValid = (...values) => {
-      return values.every((value) => value > 0 && value < 6e6);
-    };
-
-    if (allValuesAreValid(responseEnd, domLoaded, windowLoaded)) {
-      this.gaTest('send', 'event', {
-        eventCategory: 'Navigation Timing',
-        eventAction: 'track',
-        nonInteraction: true,
-        [this.metrics.RESPONSE_END_TIME]: responseEnd,
-        [this.metrics.DOM_LOAD_TIME]: domLoaded,
-        [this.metrics.WINDOW_LOAD_TIME]: windowLoaded,
-      });
-    }
+  /**
+   * Init Sentry.
+   *
+   * @param {Object} config Sentry config
+   * @param {string} config.key Sentry key
+   * @param {string} config.project Sentry project
+   * @returns {undefined}
+   *
+   * @memberOf Snitchy
+   */
+  initSentry(config) {
+    this.sentry = new Sentry(config)
   }
 }
 
@@ -240,12 +86,16 @@ export default Snitchy
 
 
 // !DEV
-const config = {
-  test: 'UA-12345-1',
-  prod: 'UA-12345-2',
+const opts = {
+  ga: {
+    test: 'UA-12345-1',
+    prod: 'UA-12345-2',
+  },
+  sentry: {
+    key: 'f8528a79efae426e860862b1547bd23b',
+    project: '15',
+  },
 }
 
 // eslint-disable-next-line
-new Snitchy(config)
-
-// !TODO: add comments
+new Snitchy(opts, 'production')

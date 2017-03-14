@@ -1,0 +1,15 @@
+{
+  "name": "analytics-epic",
+  "version": "0.0.1",
+  "description": "Google analytics manager for EPIC projects",
+  "main": "lib",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.epic.net:epic-toolbox/analytics-epic.git"
+  },
+  "author": "Thierry Michel <thierry@epic.net>",
+  "license": "SEE LICENSE IN UNLICENSE"
+}

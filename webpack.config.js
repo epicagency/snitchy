@@ -5,7 +5,7 @@ module.exports = {
     index: './src/index.js',
   },
   output: {
-    path: path.join(__dirname, '/lib'),
+    path: path.join(__dirname, '/build'),
     filename: '[name].js',
   },
   module: {
@@ -20,6 +20,6 @@ module.exports = {
   devtool: 'cheap-module-source-map',
   devServer: {
     stats: 'minimal',
-    publicPath: '/lib/',
+    publicPath: '/build/',
   },
-};
+}

@@ -82,20 +82,3 @@ class Snitchy {
 }
 
 export default Snitchy
-
-
-
-// !DEV
-const opts = {
-  ga: {
-    test: 'UA-12345-1',
-    prod: 'UA-12345-2',
-  },
-  sentry: {
-    key: 'f8528a79efae426e860862b1547bd23b',
-    project: '15',
-  },
-}
-
-// eslint-disable-next-line
-new Snitchy(opts, 'production')

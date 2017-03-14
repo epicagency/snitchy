@@ -18,7 +18,7 @@ npm i -S epic-snitchy
 Create some `assets/scripts/tracking.js` file.
 
 ```js
-import Snitchy
+import Snitchy from 'epic-snitchy'
 
 // Set ga and/or sentry configurations.
 const opts = {

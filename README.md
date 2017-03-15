@@ -1,6 +1,6 @@
 # Snitchy
 
-Tracking for EPIC projects
+Tracking for EPIC projects (!!! WIP, pre-alpha !!!)
 
 - Google Analytics
 - Sentry

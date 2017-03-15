@@ -6,12 +6,12 @@
   "main": "lib",
   "scripts": {
     "babel": "babel src --out-dir lib",
-    "build": "npm run lint && npm run clean && webpack --progress --profile",
+    "build": "npm run lint && npm run clean && webpack --env=build --progress --profile",
     "clean": "rm -rf lib/*",
     "copy": "cp -r src/ lib/",
     "lint": "eslint src/** || exit 0",
     "prepublish": "npm run build",
-    "start": "npm run lint && webpack-dev-server",
+    "start": "npm run lint && npm run build && webpack-dev-server --env=dev",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
@@ -43,6 +43,7 @@
     "eslint": "^3.17.1",
     "raven-js": "^3.12.1",
     "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.4.2"
+    "webpack-dev-server": "^2.4.2",
+    "webpack-merge": "^4.0.0"
   }
 }

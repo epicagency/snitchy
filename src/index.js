@@ -41,32 +41,6 @@ class Snitchy {
   }
 
   /**
-   * Proxied ga() function that calls commands on all trackers.
-   *
-   * @param {string} command ga command
-   * @param {any} args ga arguments
-   * @returns {undefined}
-   *
-   * @memberOf Snitchy
-   */
-  gaAll(command, ...args) {
-    this.gaAll.gaAll(command, ...args)
-  }
-
-  /**
-   * Proxied ga() function that calls commands on all TEST trackers.
-   *
-   * @param {string} command ga command
-   * @param {any} args ga arguments
-   * @returns {undefined}
-   *
-   * @memberOf Snitchy
-   */
-  gaTest(command, ...args) {
-    this.gaTest.gaAll(command, ...args)
-  }
-
-  /**
    * Init Sentry.
    *
    * @param {Object} config Sentry config

@@ -5,8 +5,11 @@ module.exports = {
     index: './src/index.js',
   },
   output: {
-    path: path.join(__dirname, '/build'),
+    path: path.join(__dirname, '/lib'),
     filename: '[name].js',
+    library: 'epic-snitchy',
+    libraryTarget: 'umd',
+    umdNamedDefine: true,
   },
   module: {
     rules: [{
@@ -20,6 +23,6 @@ module.exports = {
   devtool: 'cheap-module-source-map',
   devServer: {
     stats: 'minimal',
-    publicPath: '/build/',
+    publicPath: '/lib/',
   },
 }

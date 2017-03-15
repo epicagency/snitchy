@@ -6,7 +6,7 @@
   "main": "lib",
   "scripts": {
     "babel": "babel src --out-dir lib",
-    "build": "npm run lint && npm run clean && npm run copy && npm run babel",
+    "build": "npm run lint && npm run clean && webpack --progress --profile",
     "clean": "rm -rf lib/*",
     "copy": "cp -r src/ lib/",
     "lint": "eslint src/** || exit 0",

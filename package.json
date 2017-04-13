@@ -1,6 +1,6 @@
 {
   "name": "epic-snitchy",
-  "version": "0.0.6",
+  "version": "1.0.0-0",
   "description": "Wrapper for Google Analytics",
   "homepage": "https://github.com/epicagency/snitchy",
   "main": "lib",

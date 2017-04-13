@@ -1,9 +1,6 @@
 # Snitchy
 
-Tracking for EPIC projects (!!! WIP, pre-alpha !!!)
-
-- Google Analytics
-- Sentry
+"Wrapper" for [analyticsjs-boilerplate](https://github.com/philipwalton/analyticsjs-boilerplate) (!!! WIP, pre-alpha !!!)
 
 ## Getting started
 
@@ -15,24 +12,22 @@ npm i -S epic-snitchy
 
 ### Usage
 
-Create some `assets/scripts/tracking.js` file.
+```html
+<!-- Loads analytics.js and custom tracking code asynchronously -->
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+<script async src="/path/to/tracking.min.js"></script>
+```
 
 ```js
 import Snitchy from 'epic-snitchy'
 
 // Set ga and/or sentry configurations.
-const opts = {
-  ga: {
-    test: 'UA-12345-1',
-    prod: 'UA-12345-2',
-  },
-  sentry: {
-    key: 'f8528a79efae426e860862b1547bd23b',
-    project: '15',
-  },
+const trackers = {
+  test: 'UA-12345-1',
+  prod: 'UA-12345-2',
 }
 
-new Snitchy(opts, process.env.NODE_ENV) // production or anything, provided by Gulp + envify
+new Snitchy(trackers, process.env.NODE_ENV) // production or anything, provided by Gulp + envify
 ```
 
-> Analytics part is based on the amazing work of [@philipwalton](https://github.com/philipwalton)
+> Based on the GREAT work of [@philipwalton](https://philipwalton.com/articles/the-google-analytics-setup-i-use-on-every-site-i-build/)

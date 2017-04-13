@@ -1,8 +1,8 @@
 {
   "name": "epic-snitchy",
   "version": "0.0.6",
-  "description": "Google analytics for EPIC projects",
-  "homepage": "https://git.epic.net/epic/snitchy",
+  "description": "Wrapper for Google Analytics",
+  "homepage": "https://github.com/epicagency/snitchy",
   "main": "lib",
   "scripts": {
     "babel": "babel src --out-dir lib",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.epic.net:epic/snitchy.git"
+    "url": "git@github.com:epicagency/snitchy.git"
   },
   "author": {
     "name": "Thierry Michel",
@@ -30,7 +30,7 @@
     "tracking"
   ],
   "bugs": {
-    "url": "https://git.epic.net/epic/snitchy/issues"
+    "url": "https://github.com/epicagency/snitchy/issues"
   },
   "license": "SEE LICENSE IN UNLICENSE",
   "devDependencies": {
@@ -41,7 +41,6 @@
     "babel-loader": "^6.4.0",
     "babel-preset-env": "^1.2.1",
     "eslint": "^3.17.1",
-    "raven-js": "^3.12.1",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.2",
     "webpack-merge": "^4.0.0"

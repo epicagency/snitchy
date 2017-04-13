@@ -61,56 +61,51 @@ const getDefinitionIndex = (definition) => +/\d+$/.exec(definition)[0]
 class Analytics {
   /**
    * Creates an instance of Analytics.
-   * @param {Object} config test and prod tracking id
-   * @param {string} config.test test tracking id
-   * @param {string} config.prod prod tracking id
+   * @param {string|Object} trackers single trackingId or trackerName.trackingId
+   * @param {string} env environment: production, staging, dev, serve
    *
    * @memberOf Analytics
    */
-  constructor(config) {
-    // !DEV add tests to check/valid config
-    // UA-NNNNNN-N
-
-
+  constructor(trackers) {
     /**
-    * Bump this when making backwards incompatible changes to the tracking
-    * implementation. This allows you to create a segment or view filter
-    * that isolates only data captured with the most recent tracking changes.
-    */
+     * Bump this when making backwards incompatible changes to the tracking
+     * implementation. This allows you to create a segment or view filter
+     * that isolates only data captured with the most recent tracking changes.
+     */
     this.TRACKING_VERSION = '1'
 
     /**
-    * A global list of tracker object, including the name and tracking ID.
-    * https://support.google.com/analytics/answer/1032385
-    */
-    this.ALL_TRACKERS = [
-      {
-        name: 'test',
-        trackingId: config.test,
-      },
-      {
-        name: 'prod',
-        trackingId: config.prod,
-      },
-    ]
+     * A global list of tracker object, including the name and tracking ID.
+     * https://support.google.com/analytics/answer/1032385
+     */
+    this.ALL_TRACKERS = []
+
+    Object.keys(trackers).forEach((key) => {
+      const tracker = {
+        name: key,
+        trackingId: trackers[key],
+      }
+
+      this.ALL_TRACKERS.push(tracker)
+    })
 
     /**
-    * Just the trackers with a name matching `test`. Using an array filter
-    * allows you to have more than one test tracker if needed.
-    */
+     * Just the trackers with a name matching `test`. Using an array filter
+     * allows you to have more than one test tracker if needed.
+     */
     this.TEST_TRACKERS = this.ALL_TRACKERS.filter(({name}) =>
       (/test/).test(name))
 
     /**
-    * A default value for dimensions so unset values always are reported as
-    * something. This is needed since Google Analytics will drop empty dimension
-    * values in reports.
-    */
+     * A default value for dimensions so unset values always are reported as
+     * something. This is needed since Google Analytics will drop empty dimension
+     * values in reports.
+     */
     this.NULL_VALUE = '(not set)'
 
     /**
-    * A mapping between custom dimension names and their indexes.
-    */
+     * A mapping between custom dimension names and their indexes.
+     */
     this.dimensions = {
       TRACKING_VERSION: 'dimension1',
       CLIENT_ID: 'dimension2',
@@ -124,8 +119,8 @@ class Analytics {
     }
 
     /**
-    * A mapping between custom metric names and their indexes.
-    */
+     * A mapping between custom metric names and their indexes.
+     */
     this.metrics = {
       RESPONSE_END_TIME: 'metric1',
       DOM_LOAD_TIME: 'metric2',
@@ -135,9 +130,9 @@ class Analytics {
     }
 
     /**
-    * Command queue proxies
-    * (can be called by other modules if needed).
-    */
+     * Command queue proxies
+     * (can be called by other modules if needed).
+     */
     this.gaAll = createGaProxy(this.ALL_TRACKERS)
     this.gaTest = createGaProxy(this.TEST_TRACKERS)
 
@@ -165,9 +160,9 @@ class Analytics {
   }
 
   /**
-  * Creates the trackers and sets the default transport and tracking
-  * version fields. In non-production environments it also logs hits.
-  */
+   * Creates the trackers and sets the default transport and tracking
+   * version fields. In non-production environments it also logs hits.
+   */
   createTrackers() {
     for (const tracker of this.ALL_TRACKERS) {
       window.ga('create', tracker.trackingId, 'auto', tracker.name)
@@ -178,8 +173,8 @@ class Analytics {
   }
 
   /**
-  * Sets a default dimension value for all custom dimensions on all trackers.
-  */
+   * Sets a default dimension value for all custom dimensions on all trackers.
+   */
   trackCustomDimensions() {
     // Sets a default dimension value for all custom dimensions to ensure
     // that every dimension in every hit has *some* value. This is necessary
@@ -215,12 +210,47 @@ class Analytics {
   }
 
   /**
-  * Requires select autotrack plugins and initializes each one with its
-  * respective configuration options. As an example of using multiple
-  * trackers, this function only requires the `maxScrollTracker` and
-  * `pageVisibilityTracker` plugins on the test trackers, so you can ensure the
-  * data collected is relevant prior to sending it to your production property.
-  */
+   * Add a custom dimension on all trackers.
+   */
+  addCustomDimension(index) {
+    const name = `dimension${Object.keys(this.dimensions).length + 1}`
+    this.dimensions[index] = name
+    this.gaAll('set', this.dimensions[index], this.NULL_VALUE)
+  }
+
+  /**
+   * Add a custom dimensions on all trackers.
+   */
+  addCustomDimensions(indexes) {
+    indexes.forEach((index) => {
+      this.addCustomDimension(index)
+    })
+  }
+
+  /**
+   * Add a custom metric.
+   */
+  addCustomMetric(index) {
+    const name = `metric${Object.keys(this.metrics).length + 1}`
+    this.metrics[index] = name
+  }
+
+  /**
+   * Add a custom metrics.
+   */
+  addCustomMetrics(indexes) {
+    indexes.forEach((index) => {
+      this.addCustomMetric(index)
+    })
+  }
+
+  /**
+   * Requires select autotrack plugins and initializes each one with its
+   * respective configuration options. As an example of using multiple
+   * trackers, this function only requires the `maxScrollTracker` and
+   * `pageVisibilityTracker` plugins on the test trackers, so you can ensure the
+   * data collected is relevant prior to sending it to your production property.
+   */
   requireAutotrackPlugins() {
     this.gaAll('require', 'cleanUrlTracker', {
       stripQuery: true,
@@ -229,7 +259,7 @@ class Analytics {
     })
     this.gaTest('require', 'maxScrollTracker', {
       sessionTimeout: 30,
-      timeZone: 'America/Los_Angeles',
+      timeZone: 'Europe/Brussels',
       maxScrollMetricIndex: getDefinitionIndex(this.metrics.MAX_SCROLL_PERCENTAGE),
     })
     this.gaAll('require', 'outboundLinkTracker', {
@@ -248,16 +278,16 @@ class Analytics {
   }
 
   /**
-  * Sends the initial pageview to Google Analytics.
-  */
+   * Sends the initial pageview to Google Analytics.
+   */
   sendInitialPageview() {
     this.gaAll('send', 'pageview', {[this.dimensions.HIT_SOURCE]: 'pageload'})
   }
 
   /**
-  * Gets the DOM and window load times and sends them as custom metrics to
-  * Google Analytics via an event hit.
-  */
+   * Gets the DOM and window load times and sends them as custom metrics to
+   * Google Analytics via an event hit.
+   */
   sendNavigationTimingMetrics() {
     // Only track performance in supporting browsers.
     if (!(window.performance && window.performance.timing)) return;

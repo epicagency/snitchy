@@ -1,13 +1,24 @@
 {
-  "presets": [
-    ["env", {
-      "targets": {
-        "browsers": [
-          "last 2 versions"
-        ],
-        "uglify": true
-      },
-      "debug": true
-    }]
-  ]
+  "env": {
+    "commonjs": {
+      "presets": ["@babel/env"]
+    },
+    "esm": {
+      "presets": [
+        ["@babel/env", {
+          "modules": false
+        }]
+      ]
+    },
+    "umd": {
+      "presets": ["@babel/env"]
+    },
+    "test": {
+      "presets": [
+        ["@babel/env", {
+          "modules": "commonjs"
+        }]
+      ]
+    }
+  }
 }

@@ -1,8 +1,10 @@
 ### Custom ###
-
-.babelrc
-.editorconfig
-.eslintrc.json
-/.vscode
+/__mocks__
+/__tests__
 /src
-/lib/index.js.map
+/.babelrc
+/.editorconfig
+/.eslintrc.json
+/.travis.yml
+/jest.config.js
+/webpack.config.js

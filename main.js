@@ -14,7 +14,7 @@ snitchy.gaTest('send', 'pageview', location.pathname);
 
 snitchy.addCustomDimension('HOME_ANIM_START')
 snitchy.addCustomDimension('HOME_ANIM_END')
-snitchy.addCustomMetrics(['HOME_ANIM_START', 'HOME_ANIM_END'])
+snitchy.addCustomMetric(['HOME_ANIM_END'])
 console.info('snitchy!!!', snitchy.metrics);
 
 snitchy.gaTest('send', 'event', {

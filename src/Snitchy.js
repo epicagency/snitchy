@@ -65,7 +65,8 @@ export class Snitchy {
       },
       url: {
         fn: () => window.location.href,
-        error: () => 'Unable to get "window.location.href',
+        // Never called?
+        // error: () => 'Unable to get "window.location.href',
       },
       val: {
         fn: (key, values) => values[key],
@@ -126,28 +127,26 @@ export class Snitchy {
    * @returns {boolean} loaded or not…
    * @memberof Snitchy
    */
-  isLoaded(from = 'variables') {
+  isLoaded(from = 'variables') { // eslint-disable-line consistent-return
     try {
       return this._variables;
     } catch (err) {
       displayErrors(`No "variables" found [snitchy.${from}]. Are they loaded?`, err);
     }
-
-    return false;
   }
 
   /**
    * Push "page" analytics.
    *
-   * @param {string | array} [layer='page'] main layer(s)
-   * @param {object} [values=null] optional values from "caller"
-   * @param {*} [scope=null] optional scope from "caller"
+   * @param {string | array} layer main layer(s)
+   * @param {object} values optional values from "caller"
+   * @param {*} scope optional scope from "caller"
    * @returns {undefined}
    * @memberof Snitchy
    */
-  page(layer = 'page', values, scope) {
-    if (!this.isLoaded('page()')) {
-      return;
+  page(layer, values, scope) {
+    if (!this.isLoaded('page()') || !layer) {
+      return null;
     }
 
     this.values = values;
@@ -157,15 +156,21 @@ export class Snitchy {
     const layers = Array.isArray(layer) ? layer : [layer];
 
     // Get the current namespace
-    const namespace = camelCase(qs('[data-namespace]').dataset.namespace);
+    const namespace = qs('[data-namespace]') ?
+      camelCase(qs('[data-namespace]').dataset.namespace) :
+      null;
 
     // Prepare data
     const data = {};
 
-    // Get global (all) and custom data
+    // Get global (all) and custom (namespace) data
     layers.forEach(layer => {
-      const global = this.variables.pages.all[layer] ? this.getData(this.variables.pages.all[layer]) : {};
-      const custom = this.variables.pages[namespace] ? this.getData(this.variables.pages[namespace][layer]) : {};
+      const global = this.variables.pages.all && this.variables.pages.all[layer] ?
+        this.getData(this.variables.pages.all[layer]) :
+        {};
+      const custom = this.variables.pages[namespace] && this.variables.pages[namespace][layer] ?
+        this.getData(this.variables.pages[namespace][layer]) :
+        {};
 
       data[layer] = {
         ...global,
@@ -173,7 +178,7 @@ export class Snitchy {
       };
 
       if (Object.keys(data[layer]).length === 0) {
-        displayWarnings(`No data found for "${layer}" layer on "${namespace}" page.`);
+        displayWarnings(`No data found for "${layer}" layer on "${namespace || 'all'}" page.`);
 
         delete data[layer];
       }
@@ -181,15 +186,25 @@ export class Snitchy {
 
     // Do not push empty data…
     if (Object.keys(data).length === 0) {
-      return;
+      return null;
     }
 
-    this.push(data);
+    return this.push(data);
   }
 
-  component(slug, values = undefined, scope = null, trigger = false) {
-    if (!this.isLoaded('component()')) {
-      return;
+  /**
+   * Push "component" analytics.
+   *
+   * @param {string} slug component slug
+   * @param {object} values optional values from "caller"
+   * @param {*} scope optional scope from "caller"
+   * @param {string} [trigger = false] optional trigger from "caller"
+   * @returns {undefined}
+   * @memberof Snitchy
+   */
+  component(slug, values, scope, trigger = false) {
+    if (!this.isLoaded('component()') || !slug) {
+      return null;
     }
 
     this.values = values;
@@ -198,8 +213,10 @@ export class Snitchy {
     const variables = this.variables.components[slug];
 
     if (!variables) {
-      return;
+      return null;
     }
+
+    const pushed = [];
 
     Object.keys(variables)
       // Filter if optional trigger
@@ -211,8 +228,11 @@ export class Snitchy {
 
         delete data.trigger;
 
+        pushed.push(data);
         this.push(data);
       });
+
+    return pushed;
   }
 
   /**
@@ -233,7 +253,10 @@ export class Snitchy {
         displayErrors('No "dataLayer" found. Check if GTM is correctly configured.', err);
       }
     }
+
+    return data;
   }
+
 
   /**
    * Get data from variables
@@ -251,6 +274,9 @@ export class Snitchy {
     return Object.keys(obj).reduce((data, k) => {
       data[k] = Snitchy.isDynamicValue(obj[k]) ? this.getValue(obj[k]) : obj[k];
 
+      // #DEV: is this called?
+      // throws always an error before?
+      /* istanbul ignore next */
       if (data[k] === null) {
         displayWarnings(`Value "${obj[k]}" for "${k}" returned "null"!`);
       }
@@ -267,87 +293,41 @@ export class Snitchy {
    * @memberof Snitchy
    */
   getValue(value) {
-    // eslint-disable-next-line prefer-const
-    let [type, key] = Snitchy.parseValue(value);
+    const [type, key] = Snitchy.parseValue(value);
     let hasPrefix;
 
-    // console.info('TYPE', type);
-    // console.info('KEY', key);
-    // console.info('PREFIX', this.prefixes[type]);
     try {
       hasPrefix = this.prefixes[type].fn;
     } catch (err) {
       displayErrors(`Unable to find valid "${type}" prefix.`, err);
     }
 
-    if (hasPrefix) {
-      try {
-        let data = this.prefixes[type].fn(key, this.values, this.scope);
+    try {
+      let data = this.prefixes[type].fn(key, this.values, this.scope);
 
-        // #DEV to improve, does "undefined" mean "atrribute"?
-        // Of course, no… :/
-        if (data === undefined || data === null) {
-          data = null;
-          displayErrors(`Unable to find "${kebabCase(key)}" attribute.`);
-        }
+      // #DEV to improve, does "undefined" mean "atrribute"?
+      // Of course, no… :/
+      if (data === undefined || data === null) {
+        data = null;
+        displayErrors(`Unable to find "${kebabCase(key)}" attribute.`);
+      }
 
-        return data;
-      } catch (err) {
-        if (this.prefixes[type].error) {
-          // Allow "fn" to throw "custom" error…
-          const msg = err.name === 'Error' ? err.message : this.prefixes[type].error(key);
+      return data;
+    } catch (err) {
+      if (this.prefixes[type].error) {
+        // Allow "fn" to throw "custom" error…
+        const msg = err.name === 'Error' ? err.message : this.prefixes[type].error(key);
 
-          displayErrors(msg, err);
-        } else {
-          displayErrors(`Something went wrong with "${key}" (No error message for "${type}").`, err);
-        }
+        displayErrors(msg, err);
+      } else {
+        displayErrors(`Something went wrong with "${key}" (No error message for "${type}").`, err);
       }
     }
 
+    // #DEV: is this called?
+    // throws always an error before?
+    /* istanbul ignore next */
     return null;
-
-
-    // switch (type) {
-    //   case 'el': {
-    //     const htmlKey = kebabCase(key);
-
-    //     if (this.scope && this.scope.$el !== undefined) {
-    //       if (key === 'textContent') {
-    //         data = trim(this.scope.$el.textContent);
-    //       } else if (this.scope.$el.getAttribute(htmlKey)) {
-    //         data = this.scope.$el.getAttribute(htmlKey);
-    //       } else {
-    //         displayErrors(`Unable to find "${htmlKey}" attribute.`);
-    //       }
-    //     } else {
-    //       displayErrors('Unable to get "this.$el". No scope found or "this.$el" is undefined.');
-    //     }
-    //     break;
-    //   }
-    //   case 'ref': {
-    //     if (this.scope && this.scope.$refs !== undefined) {
-    //       let attr;
-
-    //       if (key.match(/[A-Z]/)) {
-    //         [key, attr] = Snitchy.parseValue(key);
-    //       }
-
-    //       const ref = this.scope.$refs[key];
-
-    //       if (ref === undefined) {
-    //         displayErrors(`Unable to find "this.$refs.${key}" reference.`);
-    //       } else {
-    //         data = ref.getAttribute(attr) || ref.value || trim(ref.textContent);
-    //       }
-    //     } else {
-    //       displayErrors('Unable to get "this.$refs". No scope found or "this.$refs" is undefined.');
-    //     }
-    //     break;
-    //   }
-    //   default:
-    // }
-
-    // return data;
   }
 
   /**

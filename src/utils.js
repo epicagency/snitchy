@@ -11,6 +11,7 @@ import combineErrors from 'combine-errors';
 export function validate(variables) {
   // For components, trigger means "auto" submit
   // so values can not be passed…
+  console.info('VARS', variables);
   forEach(variables.components, component => {
     Object.keys(component)
       // Filter if optional trigger
@@ -25,18 +26,6 @@ export function validate(variables) {
           }
         });
       });
-
-    // Check if data with triggers have '$val…' value
-    // data.forEach(d => {
-    //   console.info(d);
-    //   if (d.trigger) {
-    //     forEach(d, value => {
-    //       if (value.match(/^\$val/)) {
-    //         throw new Error('🚨 Values ($val…) are not allowed for components with "trigger"');
-    //       }
-    //     });
-    //   }
-    // });
   });
 }
 
@@ -110,8 +99,6 @@ export function camelCase(value) {
  * @memberof Analytics
  */
 export function displayErrors(message, error = null) {
-  console.info('MSG', message);
-  // console.info('ERR', error.name);
   const errors = [
     new Error(`📈 ${message}\nFor more informations, see…(documentation link)`),
   ];

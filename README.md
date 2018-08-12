@@ -26,11 +26,13 @@ This module aims to reach 3 goals:
 
 ### Pages
 
-Pushing data from pages use the `data-namespace` attribute.
-Data variables can be declared once for all pages into `{ pages/all/[layer(s)] }`.
+Pushing data from pages use the `data-namespace` attribute.<br>
+Data variables can be declared once for all pages into `{ pages/all/[layer(s)] }`.<br>
 Custom variables should go into `{ pages/[namespace]/[layer(s)] }`.
 
 > Data pushed are `{ layer1: {}, … }`.
+
+---
 
 #### `snitchy.page([layer, values, scope])`
 
@@ -82,12 +84,14 @@ Different scenarios:
 
 ### Component
 
-Pushing data from components are organised by `slug` and `description`.
-By default, all the descriptions are pushed.
-You can use a special 'trigger' property (with `kapla-snitchy`) to push automatically "onTriggerValue".
+Pushing data from components are organised by `slug` and `description`.<br>
+By default, all the descriptions are pushed.<br>
+You can use a special 'trigger' property (with `kapla-snitchy`) to push automatically "onTriggerValue".<br>
 In this case only this content will be pushed (trigger property will be removed before).
 
 > Data pushed are contents of `slug/description(s)`.
+
+---
 
 #### `snitchy.component([slug, values, scope, trigger])`
 
@@ -109,7 +113,7 @@ Type: `thisArg`
 
 For use with `$thisSomething` where "this" will refers to "scope".
 
-##### trigger
+##### trigger (`kapla-snitchy` only)
 
 Type: `string`
 
@@ -193,3 +197,99 @@ You can add you own prefixes with `addPrefix()`.
     Examples:
     - `$refKeywordTextContent` returns `this.$refs[keyword].textContent`
     - `$refKeywordAttribute` returns `this.$refs[keyword].getAttribute('attribute')`
+
+---
+
+## Data (variables) example
+
+```json
+{
+  "pages": {
+    "all": {
+      "page": {
+        "title": "$tagTitle",
+        "language": "$attrLang"
+      },
+    },
+    "products": {
+      "page": {
+        "category": "$valCategory"
+      }
+    },
+    "singleProduct": {
+      "page": {
+        "id": "thisProductId"
+      }
+    }
+  },
+  "component": {
+    "search": {
+      "default": {
+        "trigger": "submit",
+        "event": "search",
+        "eventAction": "submit",
+        "eventCategory": "form",
+        "eventRef": "$elAction",
+        "eventValue": "$refsInputValue"
+      }
+    },
+    "contact": {
+      "success": {
+        "trigger": "success",
+        "event": "formSubmit",
+        "eventAction": "submit",
+        "eventCategory": "form",
+        "eventValue": "$refInputValue"
+      },
+      "error": {
+        "trigger": "error",
+        "event": "formError",
+        "eventAction": "submit",
+        "eventCategory": "form",
+        "eventValue": "$refInputValue"
+      }
+    },
+    "social": {
+      "event": "social",
+      "eventAction": "$elDataAction",
+      "eventValue": "elHref"
+    }
+  }
+}
+```
+
+### Usage
+
+- All pages: nothing
+- Products: `snitchy.page('page', { category: 'shoes' })`
+- Single product: `snitchy.page('page', null, this.single)` (instance)
+- Search component: nothing
+- Contact component: `snitchy.component('contact', null, null, 'success')` (or via kapla: `$trigger('success')`). Same for error…
+- Social component: `snitchy.component('social')` (or nothing with `"trigger": "click"`)
+
+Just for comparison, without this module:
+
+```js
+dataLayer.push({
+  page: {
+    title: document.documentElement.querySelector('title').textContent,
+    language: document.documentElement.lang,
+  }
+});
+```
+
+or
+
+```js
+dataLayer.push({
+  trigger: 'error'
+  event: 'formError'
+  eventAction: 'submit'
+  eventCategory: 'form'
+  eventValue: document.querySelector('[name="…"]'),
+});
+```
+
+---
+
+Feel free to comment , add an issue or submit a pull request…

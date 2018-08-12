@@ -2,6 +2,8 @@
 
 ## TODOS
 
+- Renaming: use `description` term
+
 ## Kapla-snitchy code
 
 ```js

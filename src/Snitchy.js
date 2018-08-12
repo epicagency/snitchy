@@ -202,7 +202,7 @@ export class Snitchy {
    * @returns {undefined}
    * @memberof Snitchy
    */
-  component(slug, values, scope, trigger = false) {
+  component(slug, values, scope, trigger) {
     if (!this.isLoaded('component()') || !slug) {
       return null;
     }

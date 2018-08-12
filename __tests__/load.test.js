@@ -1,6 +1,11 @@
 /* global it, expect */
 import snitchy from '../src';
 
+it('throws error on no variables loaded', () => {
+  expect(snitchy.variables).toBeFalsy();
+  expect(snitchy.isLoaded).toThrow('📈 No "variables" found [snitchy.variables]. Are they loaded?');
+});
+
 it('loads variables', () => {
   const variables = {
     pages: { foo: 'foo' },
@@ -9,8 +14,8 @@ it('loads variables', () => {
 
   snitchy.load(variables);
 
-  expect(snitchy.variables).toEqual(expect.objectContaining(variables));
-  expect(snitchy.isLoaded()).toEqual(expect.objectContaining(variables));
+  expect(snitchy.variables).toMatchObject(variables);
+  expect(snitchy.isLoaded()).toMatchObject(variables);
 });
 
 it('throws error on additional property', () => {
@@ -60,6 +65,3 @@ it('throws error on invalid variables data', () => {
   expect(load).toThrow('📈 Invalid variables data !');
 });
 
-it('throws error on no variables loaded', () => {
-  expect(snitchy.isLoaded).toThrow('📈 No "variables" found [snitchy.variables]. Are they loaded?');
-});

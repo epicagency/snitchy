@@ -21,54 +21,43 @@ it('has no defaults', () => {
   };
 
   snitchy.load(variables);
-  const result = snitchy.page();
+  const result = snitchy.component();
 
   expect(result).toBeNull();
   expect(snitchy.values).toBeUndefined();
   expect(snitchy.scope).toBeUndefined();
 });
 
-it('displays warning when missing layer', () => {
-  global.console = {
-    ...global.console,
-    warn: jest.fn(),
-  };
+it('returns "null" if no slug', () => {
   const variables = {
-    pages: {
-      all: {
-        otherLayer: {},
-      },
-    },
+    pages: {},
     components: {},
   };
 
   snitchy.load(variables);
-  const result = snitchy.page('layer');
+  const result = snitchy.component('slug');
 
   expect(result).toBeNull();
-  expect(global.console.warn).toHaveBeenCalled();
 });
 
-it('pushes one single layer', () => {
-  const expected = {
-    layer1: {
-      static: 'value',
-    },
-  };
+it('pushes one single variable', () => {
+  const expected = [{
+    static: 'value',
+  }];
   const variables = {
-    pages: {
-      all: {
-        layer1: {
+    pages: {},
+    components: {
+      slug: {
+        single: {
           static: 'value',
         },
       },
     },
-    components: {},
   };
 
   snitchy.load(variables);
 
-  const result = snitchy.page('layer1');
+  const result = snitchy.component('slug');
 
   pushed += 1;
 
@@ -76,6 +65,70 @@ it('pushes one single layer', () => {
   expect(dataLayer.push).toHaveBeenCalledTimes(pushed);
 });
 
+it('pushes multiple variables', () => {
+  const expected = [
+    {
+      static: 'value',
+    },
+    {
+      static: 'value',
+    },
+  ];
+  const variables = {
+    pages: {},
+    components: {
+      slug: {
+        first: {
+          static: 'value',
+        },
+        second: {
+          static: 'value',
+        },
+      },
+    },
+  };
+
+  snitchy.load(variables);
+
+  const result = snitchy.component('slug');
+
+  pushed += 2;
+
+  expect(result).toMatchObject(expected);
+  expect(dataLayer.push).toHaveBeenCalledTimes(pushed);
+});
+
+it('pushes only trigger', () => {
+  const expected = [
+    {
+      static: 'value',
+    },
+  ];
+  const variables = {
+    pages: {},
+    components: {
+      slug: {
+        with: {
+          trigger: 'click',
+          static: 'value',
+        },
+        without: {
+          static: 'value',
+        },
+      },
+    },
+  };
+
+  snitchy.load(variables);
+
+  const result = snitchy.component('slug', null, null, 'click');
+
+  pushed += 1;
+
+  expect(result).toMatchObject(expected);
+  expect(dataLayer.push).toHaveBeenCalledTimes(pushed);
+});
+/*
 it('pushes multiple layers', () => {
   const expected = {
     layer1: {
@@ -202,3 +255,4 @@ it('pushes global and custom layers', () => {
   expect(result).toMatchObject(expected);
   expect(dataLayer.push).toHaveBeenCalledTimes(pushed);
 });
+*/

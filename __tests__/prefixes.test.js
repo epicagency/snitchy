@@ -2,10 +2,12 @@
 import snitchy from '../src';
 
 it('adds prefix', () => {
+  /* eslint-disable no-empty-function */
   const prefix = {
     fn() {},
     error() {},
   };
+  /* eslint-enable no-empty-function */
 
   snitchy.addPrefix('prefix', prefix);
 
@@ -14,6 +16,7 @@ it('adds prefix', () => {
 
 it('displays warning on existing prefix', () => {
   global.console = {
+    ...global.console,
     warn: jest.fn(),
   };
 

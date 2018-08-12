@@ -9,7 +9,7 @@ const variables = {
 
 snitchy.load(variables);
 
-it('throws error on invalid prefix ', () => {
+it('throws error on invalid prefix', () => {
   function get() { // eslint-disable-line require-jsdoc
     snitchy.getValue('$invalid');
   }
@@ -17,7 +17,7 @@ it('throws error on invalid prefix ', () => {
   expect(get).toThrow('📈 Unable to find valid "invalid" prefix.');
 });
 
-it('throws error on undefined data ', () => {
+it('throws error on undefined data', () => {
   function get() { // eslint-disable-line require-jsdoc
     snitchy.getValue('$valUnknown');
   }
@@ -27,7 +27,7 @@ it('throws error on undefined data ', () => {
   expect(get).toThrow('📈 Unable to find "unknown" attribute.');
 });
 
-it.skip('returns null for undefined data ', () => {
+it.skip('returns null for undefined data', () => {
   snitchy.values = {};
 
   const result = snitchy.getValue('$valUnknown');

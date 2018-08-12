@@ -20,8 +20,8 @@ it('loops on array', () => {
     newArr.push(el);
   });
 
-  expect(value).toEqual(expect.arrayContaining(arr));
-  expect(value).toEqual(expect.arrayContaining(newArr));
+  expect(value).toMatchObject(arr);
+  expect(value).toMatchObject(newArr);
 });
 
 it('iterates on array', () => {
@@ -43,8 +43,8 @@ it('loops on object', () => {
     newObj[key] = value;
   });
 
-  expect(value).toEqual(expect.objectContaining(obj));
-  expect(value).toEqual(expect.objectContaining(newObj));
+  expect(value).toMatchObject(obj);
+  expect(value).toMatchObject(newObj);
 });
 
 it('iterates on object', () => {
@@ -88,6 +88,7 @@ it('throws error', () => {
 
 it('displays warning', () => {
   global.console = {
+    ...global.console,
     warn: jest.fn(),
   };
 

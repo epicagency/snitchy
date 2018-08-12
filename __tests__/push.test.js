@@ -10,6 +10,7 @@ it('pushes data', () => {
 
 it('displays push data on debug', () => {
   global.console = {
+    ...global.console,
     info: jest.fn(),
     table: jest.fn(),
   };

@@ -11,7 +11,6 @@ import combineErrors from 'combine-errors';
 export function validate(variables) {
   // For components, trigger means "auto" submit
   // so values can not be passed…
-  console.info('VARS', variables);
   forEach(variables.components, component => {
     Object.keys(component)
       // Filter if optional trigger

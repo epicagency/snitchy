@@ -294,10 +294,9 @@ export class Snitchy {
    */
   getValue(value) {
     const [type, key] = Snitchy.parseValue(value);
-    let hasPrefix;
 
     try {
-      hasPrefix = this.prefixes[type].fn;
+      const hasPrefix = this.prefixes[type].fn; // eslint-disable-line no-unused-vars
     } catch (err) {
       displayErrors(`Unable to find valid "${type}" prefix.`, err);
     }

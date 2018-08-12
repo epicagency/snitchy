@@ -2,7 +2,7 @@
 
 ![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg?style=flat-square)
 [![NPM version](https://img.shields.io/npm/v/snitchy.svg?style=flat-square)](https://www.npmjs.com/package/snitchy)
-[![Coverage Status](https://img.shields.io/coveralls/thierrymichel/snitchy/master.svg?style=flat-square)](https://travis-ci.com/thierrymichel/snitchy)
+[![Coverage Status](https://img.shields.io/coveralls/thierrymichel/snitchy/master.svg?style=flat-square)](https://travis-ci.com/epicagency/snitchy)
 
 > DataLayer push made easy
 

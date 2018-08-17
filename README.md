@@ -3,6 +3,7 @@
 ![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg?style=flat-square)
 [![NPM version](https://img.shields.io/npm/v/snitchy.svg?style=flat-square)](https://www.npmjs.com/package/snitchy)
 [![Coverage Status](https://img.shields.io/coveralls/github/epicagency/snitchy/master.svg?style=flat-square)](https://travis-ci.com/epicagency/snitchy)
+[![License](https://img.shields.io/badge/license-UNLICENSE-green.svg?style=flat-square)](https://github.com/epicagency/snitchy/blob/master/UNLICENSE)
 
 > DataLayer push made easy
 
@@ -28,7 +29,7 @@ This module aims to reach 3 goals:
 
 Pushing data from pages use the `data-namespace` attribute.<br>
 Data variables can be declared once for all pages into `{ pages/all/[layer(s)] }`.<br>
-Custom variables should go into `{ pages/[namespace]/[layer(s)] }`.
+Custom variables should go into `{ pages/[namespace]/[layer(s)] }` and will override globals.
 
 > Data pushed are `{ layer1: {}, … }`.
 

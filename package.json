@@ -74,6 +74,7 @@
   },
   "dependencies": {
     "combine-errors": "^3.0.3",
+    "schema-utils": "^1.0.0",
     "trim": "0.0.1"
   }
 }

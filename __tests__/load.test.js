@@ -25,7 +25,7 @@ it('throws error on additional property', () => {
     });
   }
 
-  expect(load).toThrow('options[\'foo\'] is an invalid additional property');
+  expect(load).toThrow('Snitchy Invalid Options');
 });
 
 it('throws error on invalid page options', () => {

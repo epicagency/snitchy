@@ -14,6 +14,12 @@ afterEach(() => {
 
 let pushed = 0;
 
+it('returns "null" if no variables', () => {
+  const result = snitchy.page();
+
+  expect(result).toBeNull();
+});
+
 it('has no defaults', () => {
   const variables = {
     pages: {},
@@ -21,11 +27,29 @@ it('has no defaults', () => {
   };
 
   snitchy.load(variables);
-  const result = snitchy.page();
 
-  expect(result).toBeNull();
+  function page() { // eslint-disable-line require-jsdoc
+    snitchy.page();
+  }
+
+  expect(page).toThrow('Any predicate failed with the following errors');
   expect(snitchy.values).toBeUndefined();
   expect(snitchy.scope).toBeUndefined();
+});
+
+it('throws error on invalid layer', () => {
+  const variables = {
+    pages: {},
+    components: {},
+  };
+
+  snitchy.load(variables);
+
+  function page() { // eslint-disable-line require-jsdoc
+    snitchy.page({});
+  }
+
+  expect(page).toThrow('Any predicate failed with the following errors');
 });
 
 it('displays warning when missing layer', () => {

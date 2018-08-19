@@ -1,6 +1,7 @@
 /* global dataLayer */
 import validateOptions from 'schema-utils';
 import trim from 'trim';
+import ow from 'ow';
 import {
   validate,
   qs,
@@ -99,6 +100,16 @@ export class Snitchy {
     this._prefixes[name] = options;
   }
 
+  removePrefix(name) {
+    if (this.prefixes[name]) {
+      delete this._prefixes[name];
+
+      return;
+    }
+
+    displayWarnings(`Prefix "${name} unknown!`);
+  }
+
   get variables() {
     return this._variables || this.isLoaded();
   }
@@ -141,19 +152,21 @@ export class Snitchy {
    * @param {string | array} layer main layer(s)
    * @param {object} values optional values from "caller"
    * @param {*} scope optional scope from "caller"
-   * @returns {undefined}
+   * @returns {null | object} pushed data
    * @memberof Snitchy
    */
   page(layer, values, scope) {
-    if (!this.isLoaded('page()') || !layer) {
+    if (!this.isLoaded('page()')) {
       return null;
     }
 
-    this.values = values;
-    this.scope = scope;
+    ow(layer, ow.any(ow.string, ow.array));
 
     // Get array of layers
     const layers = Array.isArray(layer) ? layer : [layer];
+
+    this.values = values;
+    this.scope = scope;
 
     // Get the current namespace
     const namespace = qs('[data-namespace]') ?
@@ -203,9 +216,11 @@ export class Snitchy {
    * @memberof Snitchy
    */
   component(slug, values, scope, trigger) {
-    if (!this.isLoaded('component()') || !slug) {
+    if (!this.isLoaded('component()')) {
       return null;
     }
+
+    ow(slug, ow.string);
 
     this.values = values;
     this.scope = scope;
@@ -220,10 +235,10 @@ export class Snitchy {
 
     Object.keys(variables)
       // Filter if optional trigger
-      .filter(layer => trigger ? variables[layer].trigger === trigger : true)
-      .forEach(layer => {
+      .filter(description => trigger ? variables[description].trigger === trigger : true)
+      .forEach(description => {
         // Prepare data
-        const variable = variables[layer];
+        const variable = variables[description];
         const data = this.getData(variable);
 
         delete data.trigger;
@@ -274,13 +289,6 @@ export class Snitchy {
     return Object.keys(obj).reduce((data, k) => {
       data[k] = Snitchy.isDynamicValue(obj[k]) ? this.getValue(obj[k]) : obj[k];
 
-      // #DEV: is this called?
-      // throws always an error before?
-      /* istanbul ignore next */
-      if (data[k] === null) {
-        displayWarnings(`Value "${obj[k]}" for "${k}" returned "null"!`);
-      }
-
       return data;
     }, {});
   }
@@ -289,10 +297,11 @@ export class Snitchy {
    * Get a dynamic value
    *
    * @param {string} value dynamic string to convert in real value
-   * @returns {* | null} calculated value
+   * @returns {* | undefined} calculated value
    * @memberof Snitchy
    */
   getValue(value) {
+    let data;
     const [type, key] = Snitchy.parseValue(value);
 
     try {
@@ -301,32 +310,32 @@ export class Snitchy {
       displayErrors(`Unable to find valid "${type}" prefix.`, err);
     }
 
+    // Try "fn" or throw "error"
     try {
-      let data = this.prefixes[type].fn(key, this.values, this.scope);
-
-      // #DEV to improve, does "undefined" mean "atrribute"?
-      // Of course, no… :/
-      if (data === undefined || data === null) {
-        data = null;
-        displayErrors(`Unable to find "${kebabCase(key)}" attribute.`);
-      }
-
-      return data;
+      data = this.prefixes[type].fn(key, this.values, this.scope);
     } catch (err) {
       if (this.prefixes[type].error) {
         // Allow "fn" to throw "custom" error…
-        const msg = err.name === 'Error' ? err.message : this.prefixes[type].error(key);
-
-        displayErrors(msg, err);
+        displayErrors([this.prefixes[type].error(key), err]);
       } else {
         displayErrors(`Something went wrong with "${key}" (No error message for "${type}").`, err);
       }
     }
 
-    // #DEV: is this called?
-    // throws always an error before?
-    /* istanbul ignore next */
-    return null;
+    // "fn" did not return error but undefined
+    if (data === undefined) {
+      let desc = 'undefined';
+
+      if (type === 'this') {
+        desc = 'property';
+      }
+      if (type === 'val') {
+        desc = 'value';
+      }
+      displayErrors(`Unable to find "${kebabCase(key)}" ${desc}.`);
+    }
+
+    return data;
   }
 
   /**

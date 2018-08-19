@@ -29,15 +29,3 @@ it('gets dynamic data', () => {
 
   expect(result).toMatchObject(expected);
 });
-
-it.skip('displays warning on null data', () => {
-  snitchy.values = { foo: null };
-  global.console = {
-    ...global.console,
-    warn: jest.fn(),
-  };
-
-  snitchy.getData({ test: '$valFoo' });
-
-  expect(global.console.warn).toHaveBeenCalled();
-});

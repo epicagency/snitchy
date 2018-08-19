@@ -92,21 +92,22 @@ export function camelCase(value) {
  * Display errors.
  *
  * @static
- * @param {string} message custom message
- * @param {Error} [error=null] optional error
+ * @param {string | Error | array} error error(s) or message(s)
  * @returns {undefined}
- * @memberof Analytics
  */
-export function displayErrors(message, error = null) {
-  const errors = [
-    new Error(`📈 ${message}\nFor more informations, see…(documentation link)`),
-  ];
+export function displayErrors(error) {
+  const errors = Array.isArray(error) ? error : [error];
+  const toCombine = [];
 
-  if (error) {
-    errors.unshift(new Error(error));
-  }
+  errors.forEach(error => {
+    if (typeof error === 'string') {
+      toCombine.push(new Error(`📈 ${error}\nFor more informations, see https://github.com/epicagency/snitchy`));
+    } else {
+      toCombine.push(error);
+    }
+  });
 
-  throw combineErrors(errors);
+  throw combineErrors(toCombine);
 }
 
 /**
@@ -115,7 +116,6 @@ export function displayErrors(message, error = null) {
  * @static
  * @param {string} message custom message
  * @returns {undefined}
- * @memberof Analytics
  */
 export function displayWarnings(message) {
   console.warn(`📈 ${message}\nFor more informations, see…(documentation link)`);

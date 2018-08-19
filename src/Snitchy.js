@@ -1,7 +1,5 @@
 /* global dataLayer */
-import validateOptions from 'schema-utils';
 import trim from 'trim';
-import ow from 'ow';
 import {
   validate,
   qs,
@@ -12,30 +10,6 @@ import {
 } from './utils';
 
 let instance;
-const schema = {
-  type: 'object',
-  properties: {
-    pages: {
-      type: 'object',
-    },
-    components: {
-      type: 'object',
-    },
-  },
-  additionalProperties: false,
-};
-const prefix = {
-  type: 'object',
-  properties: {
-    fn: {
-      instanceof: 'Function',
-    },
-    error: {
-      instanceof: 'Function',
-    },
-  },
-  additionalProperties: false,
-};
 
 export class Snitchy {
   static start() {
@@ -95,7 +69,16 @@ export class Snitchy {
       return;
     }
 
-    validateOptions(prefix, options, 'Snitchy');
+    Object.keys(options).forEach(key => {
+      // No additional properties
+      if (!key.match(/fn|error/)) {
+        displayErrors(`Invalid option "${key}" [no additional data]`);
+      }
+      // Should be a function
+      if (key.match(/fn|error/) && typeof options[key] !== 'function') {
+        displayErrors(`Invalid option "${key}" [should be a function]`);
+      }
+    });
 
     this._prefixes[name] = options;
   }
@@ -122,7 +105,17 @@ export class Snitchy {
    * @memberof Snitchy
    */
   load(variables) {
-    validateOptions(schema, variables, 'Snitchy');
+    Object.keys(variables).forEach(key => {
+      // No additional properties
+      if (!key.match(/pages|components/)) {
+        displayErrors(`Invalid option "${key}" [no additional data]`);
+      }
+      // Should be an object
+      if (key.match(/pages|components/) && typeof variables[key] !== 'object') {
+        displayErrors(`Invalid option "${key}" [should be an object]`);
+      }
+    });
+
     try {
       validate(variables);
       this._variables = variables;
@@ -160,7 +153,9 @@ export class Snitchy {
       return null;
     }
 
-    ow(layer, ow.any(ow.string, ow.array));
+    if (typeof layer !== 'string' && !Array.isArray(layer)) {
+      displayErrors('Expected argument "layer" to be of type `string` or `array`');
+    }
 
     // Get array of layers
     const layers = Array.isArray(layer) ? layer : [layer];
@@ -220,7 +215,9 @@ export class Snitchy {
       return null;
     }
 
-    ow(slug, ow.string);
+    if (typeof slug !== 'string') {
+      displayErrors('Expected argument "slug" to be of type `string`');
+    }
 
     this.values = values;
     this.scope = scope;

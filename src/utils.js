@@ -1,4 +1,4 @@
-import combineErrors from 'combine-errors';
+import AggregateError from 'aggregate-error';
 
 /**
  * Check validity
@@ -92,22 +92,22 @@ export function camelCase(value) {
  * Display errors.
  *
  * @static
- * @param {string | Error | array} error error(s) or message(s)
+ * @param {string | Error | array} fail error(s) or message(s)
  * @returns {undefined}
  */
-export function displayErrors(error) {
-  const errors = Array.isArray(error) ? error : [error];
-  const toCombine = [];
+export function displayErrors(fail) {
+  const fails = Array.isArray(fail) ? fail : [fail];
+  const errors = [];
 
-  errors.forEach(error => {
-    if (typeof error === 'string') {
-      toCombine.push(new Error(`📈 ${error}\nFor more informations, see https://github.com/epicagency/snitchy`));
+  fails.forEach(fail => {
+    if (typeof fail === 'string') {
+      errors.push(new Error(`📈 ${fail}\nFor more informations, see https://github.com/epicagency/snitchy`));
     } else {
-      toCombine.push(error);
+      errors.push(fail);
     }
   });
 
-  throw combineErrors(toCombine);
+  throw new AggregateError(errors);
 }
 
 /**

@@ -36,10 +36,10 @@ it('displays warning on adding existing prefix', () => {
 
 it('throws error on additional property', () => {
   function add() { // eslint-disable-line require-jsdoc
-    snitchy.addPrefix('additional', { foo: 'foo' });
+    snitchy.addPrefix('additional', { extra: '' });
   }
 
-  expect(add).toThrow('Snitchy Invalid Options');
+  expect(add).toThrow('Invalid option "extra" [no additional data]');
 });
 
 it('throws error on invalid fn', () => {
@@ -47,7 +47,7 @@ it('throws error on invalid fn', () => {
     snitchy.addPrefix('invalidFn', { fn: 'invalid' });
   }
 
-  expect(add).toThrow('options.fn should pass "instanceof" keyword validation');
+  expect(add).toThrow('Invalid option "fn" [should be a function]');
 });
 
 it('throws error on invalid error', () => {
@@ -55,7 +55,7 @@ it('throws error on invalid error', () => {
     snitchy.addPrefix('invalidError', { error: 'invalid' });
   }
 
-  expect(add).toThrow('options.error should pass "instanceof" keyword validation');
+  expect(add).toThrow('Invalid option "error" [should be a function]');
 });
 
 it('removes prefix', () => {

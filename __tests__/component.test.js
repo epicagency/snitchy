@@ -32,7 +32,7 @@ it('has no defaults', () => {
     snitchy.component({});
   }
 
-  expect(component).toThrow('Expected argument to be of type `string`');
+  expect(component).toThrow('Expected argument "slug" to be of type `string`');
   expect(snitchy.values).toBeUndefined();
   expect(snitchy.scope).toBeUndefined();
 });
@@ -49,7 +49,7 @@ it('throws error on invalid slug', () => {
     snitchy.component({});
   }
 
-  expect(component).toThrow('Expected argument to be of type `string`');
+  expect(component).toThrow('Expected argument "slug" to be of type `string`');
 });
 
 it('returns "null" if no slug', () => {

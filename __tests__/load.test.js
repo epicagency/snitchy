@@ -6,7 +6,7 @@ it('throws error on no variables loaded', () => {
   expect(snitchy.isLoaded).toThrow('📈 No "variables" found [snitchy.variables]. Are they loaded?');
 });
 
-it('loads variables', () => {
+it.only('loads variables', () => {
   const variables = {
     pages: { foo: 'foo' },
     components: { foo: 'foo' },
@@ -21,31 +21,31 @@ it('loads variables', () => {
 it('throws error on additional property', () => {
   function load() { // eslint-disable-line require-jsdoc
     snitchy.load({
-      foo: 'foo',
+      extra: '',
     });
   }
 
-  expect(load).toThrow('Snitchy Invalid Options');
+  expect(load).toThrow('Invalid option "extra" [no additional data]');
 });
 
 it('throws error on invalid page options', () => {
   function load() { // eslint-disable-line require-jsdoc
     snitchy.load({
-      pages: 'foo',
+      pages: '',
     });
   }
 
-  expect(load).toThrow('options.pages should be object');
+  expect(load).toThrow('Invalid option "pages" [should be an object]');
 });
 
 it('throws error on invalid components options', () => {
   function load() { // eslint-disable-line require-jsdoc
     snitchy.load({
-      components: 'foo',
+      components: '',
     });
   }
 
-  expect(load).toThrow('options.components should be object');
+  expect(load).toThrow('Invalid option "components" [should be an object]');
 });
 
 it('throws error on invalid variables data', () => {

@@ -32,7 +32,7 @@ it('has no defaults', () => {
     snitchy.page();
   }
 
-  expect(page).toThrow('Any predicate failed with the following errors');
+  expect(page).toThrow('Expected argument "layer" to be of type `string` or `array`');
   expect(snitchy.values).toBeUndefined();
   expect(snitchy.scope).toBeUndefined();
 });
@@ -49,7 +49,7 @@ it('throws error on invalid layer', () => {
     snitchy.page({});
   }
 
-  expect(page).toThrow('Any predicate failed with the following errors');
+  expect(page).toThrow('Expected argument "layer" to be of type `string` or `array`');
 });
 
 it('displays warning when missing layer', () => {

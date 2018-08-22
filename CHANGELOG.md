@@ -7,9 +7,42 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.0.0] _(11/08/2018)_
+## [2.0.4] _(22/08/2018)_
+
+### Removed
+
+- Heavy deps (from config)
+- Snippet ([NOTES.md](NOTES.md))
+
+## [2.0.3] _(19/08/2018)_
+
+### Removed
+
+- Heavy deps
+
+## [2.0.2] _(19/08/2018)_
+
+### Changed
+
+- Errors handling
+
+## [2.0.1] _(12/08/2018)_
+
+### Added
+
+- Data example
+- Missing deps
+
+### Fixed
+
+- Coverage badge
+- Typos
+
+## [2.0.0] _(11/08/2018)_
 
 - :tada: initial commit
+
+> Version 2.0 because it has nothing to do with previous version…
 
 ---
 

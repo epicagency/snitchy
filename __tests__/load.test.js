@@ -6,7 +6,7 @@ it('throws error on no variables loaded', () => {
   expect(snitchy.isLoaded).toThrow('📈 No "variables" found [snitchy.variables]. Are they loaded?');
 });
 
-it.only('loads variables', () => {
+it('loads variables', () => {
   const variables = {
     pages: { foo: 'foo' },
     components: { foo: 'foo' },

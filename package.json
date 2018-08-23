@@ -1,6 +1,6 @@
 {
   "name": "snitchy",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "DataLayer push made easy",
   "homepage": "https://github.com/epicagency/snitchy",
   "main": "lib/index.js",

@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.0.6] _(23/08/2018)_
+
+### Fixed
+
+- wrong namespace assignation mechanism
+
+## [2.0.5] _(23/08/2018)_
+
 ### Added
 
 - optional namespace for override

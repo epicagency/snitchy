@@ -226,3 +226,42 @@ it('pushes global and custom layers', () => {
   expect(result).toMatchObject(expected);
   expect(dataLayer.push).toHaveBeenCalledTimes(pushed);
 });
+
+
+it('pushes overridendata-namespace', () => {
+  const expected = {
+    layer: {
+      staticNamespace: 'value3',
+    },
+  };
+  const variables = {
+    pages: {
+      all: {
+        layer: {
+          staticNamespace: 'value1',
+        },
+      },
+      home: {
+        layer: {
+          staticNamespace: 'value2',
+        },
+      },
+      overriden: {
+        layer: {
+          staticNamespace: 'value3',
+        },
+      },
+    },
+    components: {},
+  };
+
+  document.body.dataset.namespace = 'home';
+  snitchy.load(variables);
+
+  const result = snitchy.page('layer', null, null, 'overriden');
+
+  pushed += 1;
+
+  expect(result).toMatchObject(expected);
+  expect(dataLayer.push).toHaveBeenCalledTimes(pushed);
+});

@@ -165,9 +165,15 @@ export class Snitchy {
     this.scope = scope;
 
     // Get the current namespace
-    const namespace = ns || qs('[data-namespace]') ?
-      camelCase(qs('[data-namespace]').dataset.namespace) :
-      null;
+    let namespace;
+
+    if (ns) {
+      namespace = ns;
+    } else if (qs('[data-namespace]')) {
+      namespace = camelCase(qs('[data-namespace]').dataset.namespace);
+    } else {
+      namespace = null;
+    }
 
     // Prepare data
     const data = {};

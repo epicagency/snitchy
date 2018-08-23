@@ -3,7 +3,6 @@ import trim from 'trim';
 import {
   validate,
   qs,
-  camelCase,
   kebabCase,
   displayErrors,
   displayWarnings,
@@ -170,7 +169,7 @@ export class Snitchy {
     if (ns) {
       namespace = ns;
     } else if (qs('[data-namespace]')) {
-      namespace = camelCase(qs('[data-namespace]').dataset.namespace);
+      namespace = qs('[data-namespace]').dataset.namespace; // eslint-disable-line prefer-destructuring
     } else {
       namespace = null;
     }

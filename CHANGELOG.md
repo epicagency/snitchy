@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.0.7] _(23/08/2018)_
+
+### Changed
+
+- naming harmonisation between page namespace and component slug
+
 ## [2.0.6] _(23/08/2018)_
 
 ### Fixed

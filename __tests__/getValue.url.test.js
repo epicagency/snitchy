@@ -54,3 +54,12 @@ it('gets url param', () => {
 
   expect(result).toBe(expected);
 });
+
+it('gets url hash', () => {
+  window.history.pushState({}, 'Test URL', '/#value');
+
+  const expected = 'value';
+  const result = snitchy.getValue('$urlHash');
+
+  expect(result).toBe(expected);
+});

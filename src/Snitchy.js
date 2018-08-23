@@ -145,10 +145,11 @@ export class Snitchy {
    * @param {string | array} layer main layer(s)
    * @param {object} values optional values from "caller"
    * @param {*} scope optional scope from "caller"
+   * @param {string} ns optional namespace for override
    * @returns {null | object} pushed data
    * @memberof Snitchy
    */
-  page(layer, values, scope) {
+  page(layer, values, scope, ns) {
     if (!this.isLoaded('page()')) {
       return null;
     }
@@ -164,7 +165,7 @@ export class Snitchy {
     this.scope = scope;
 
     // Get the current namespace
-    const namespace = qs('[data-namespace]') ?
+    const namespace = ns || qs('[data-namespace]') ?
       camelCase(qs('[data-namespace]').dataset.namespace) :
       null;
 

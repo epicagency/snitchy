@@ -16,14 +16,6 @@ it('gets url', () => {
   expect(result).toBe(expected);
 });
 
-it('throws error with no param', () => {
-  function get() { // eslint-disable-line require-jsdoc
-    snitchy.getValue('$urlParamMissing');
-  }
-
-  expect(get).toThrow('📈 No keyword "param" or "missing" found in "window.location.search"');
-});
-
 it('throws error with incorrect param', () => {
   function get() { // eslint-disable-line require-jsdoc
     snitchy.getValue('$urlPortnawakKey');
@@ -32,14 +24,26 @@ it('throws error with incorrect param', () => {
   expect(get).toThrow('📈 No keyword "param" or "key" found in "window.location.search"');
 });
 
-it('throws error with missing key', () => {
+it('returns empty string with no param', () => {
+  const expected = '';
+  const result = snitchy.getValue('$urlParamMissing');
+
+  expect(result).toBe(expected);
+  // DEV
+  // function get() { // eslint-disable-line require-jsdoc
+  //   snitchy.getValue('$urlParamMissing');
+  // }
+
+  // expect(get).toThrow('📈 No keyword "param" or "missing" found in "window.location.search"');
+});
+
+it('returns empty string with missing key', () => {
   window.history.pushState({}, 'Test URL', '/?key=value');
 
-  function get() { // eslint-disable-line require-jsdoc
-    snitchy.getValue('$urlParamMissing');
-  }
+  const expected = '';
+  const result = snitchy.getValue('$urlParamMissing');
 
-  expect(get).toThrow('📈 No keyword "param" or "missing" found in "window.location.search"');
+  expect(result).toBe(expected);
 });
 
 it('gets url param', () => {

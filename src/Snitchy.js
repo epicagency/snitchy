@@ -46,11 +46,11 @@ export class Snitchy {
             const [param, value] = Snitchy.parseValue(key);
             const parsed = queryString.parse(location.search);
 
-            if (param !== 'param' || !value || !parsed[value]) {
+            if (param !== 'param' || !value) {
               throw new Error();
             }
 
-            return parsed[value];
+            return parsed[value] || '';
           }
 
           return window.location.href;

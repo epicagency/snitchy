@@ -8,16 +8,6 @@ const variables = {
 
 snitchy.load(variables);
 
-afterEach(() => {
-  const el = document.documentElement;
-
-  while (el.attributes.length > 0) {
-    el.removeAttribute(el.attributes[0].name);
-  }
-
-  document.body.innerHTML = '';
-});
-
 it('throws error with no scope', () => {
   function get() { // eslint-disable-line require-jsdoc
     snitchy.getValue('$thisProp');
@@ -35,6 +25,19 @@ it('gets property through scope', () => {
   snitchy.scope = scope;
 
   const result = snitchy.getValue('$thisProp');
+
+  expect(result).toBe(expected);
+});
+
+it('gets compound property through scope', () => {
+  const expected = 'value';
+  const scope = {
+    compoundProp: expected,
+  };
+
+  snitchy.scope = scope;
+
+  const result = snitchy.getValue('$thisCompoundProp');
 
   expect(result).toBe(expected);
 });

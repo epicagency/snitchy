@@ -1,5 +1,6 @@
 /* global dataLayer */
 import trim from 'trim';
+import queryString from 'query-string';
 import {
   validate,
   qs,
@@ -38,9 +39,27 @@ export class Snitchy {
         error: key => `Unable to get "this.${key}". No scope found.`,
       },
       url: {
-        fn: () => window.location.href,
-        // Never called?
-        // error: () => 'Unable to get "window.location.href',
+        fn: key => {
+          const { location } = window;
+
+          if (key) {
+            const [param, value] = Snitchy.parseValue(key);
+            const parsed = queryString.parse(location.search);
+
+            if (param !== 'param' || !value || !parsed[value]) {
+              throw new Error();
+            }
+
+            return parsed[value];
+          }
+
+          return window.location.href;
+        },
+        error: key => {
+          const [, value] = Snitchy.parseValue(key);
+
+          return `No keyword "param" or "${value}" found in "window.location.search"`;
+        },
       },
       val: {
         fn: (key, values) => values[key],

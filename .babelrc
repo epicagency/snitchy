@@ -11,7 +11,10 @@
       ]
     },
     "umd": {
-      "presets": ["@babel/env"]
+      "presets": ["@babel/env"],
+      "plugins": [
+        "add-module-exports"
+      ]
     },
     "test": {
       "presets": [

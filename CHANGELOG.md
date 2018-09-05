@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.2.0] _(05/09/2018)_
+
+### Added
+
+- add `pageAttribute`
+- add `destroy()` method
+
+### Changed
+
+- improve UMD build
+
+## [2.1.3] _(24/08/2018)_
+
+### Changed
+
+- test UMD build
+
 ## [2.1.2] _(23/08/2018)_
 
 ### Added

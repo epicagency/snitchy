@@ -22,6 +22,7 @@
 
 ## TODOS
 
+- [ ] test options
 - [ ] add $doc for document…
 - [ ] $val is compatible with manual trigger (invalid variables…)
 - [x] Add `$urlParamKey`

@@ -10,7 +10,7 @@ const config = {
   entry: './src/index.js',
   output: {
     filename: isProd ? 'snitchy.min.js' : 'snitchy.js',
-    library: 'snitchy',
+    library: 'Snitchy',
     libraryTarget: 'umd',
     umdNamedDefine: true,
   },

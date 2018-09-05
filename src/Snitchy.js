@@ -12,14 +12,21 @@ import {
 let instance;
 
 export class Snitchy {
-  static start() {
-    instance = instance || new Snitchy();
+  static start(options) {
+    instance = instance || new Snitchy(options);
 
     return instance;
   }
 
-  constructor() {
+  static destroy() {
+    instance = null;
+  }
+
+  constructor(options = {
+    pageAttribute: 'data-snitchy-page',
+  }) {
     this._debug = false;
+    this._pageAttribute = options.pageAttribute;
     this._prefixes = {
       attr: {
         fn: key => {
@@ -191,8 +198,9 @@ export class Snitchy {
 
     if (ns) {
       namespace = ns;
-    } else if (qs('[data-namespace]')) {
-      namespace = qs('[data-namespace]').dataset.namespace; // eslint-disable-line prefer-destructuring
+    } else if (qs(`[${this._pageAttribute}]`, document.documentElement)) {
+      // eslint-disable-next-line prefer-destructuring
+      namespace = qs(`[${this._pageAttribute}]`, document.documentElement).getAttribute(this._pageAttribute);
     } else {
       namespace = null;
     }
@@ -286,7 +294,9 @@ export class Snitchy {
   push(data) {
     if (this.debug) {
       console.info('📈 PUSH!', data);
-      console.table(data);
+      if (console.table) {
+        console.table(data);
+      }
     } else {
       try {
         dataLayer.push(data);
@@ -297,7 +307,6 @@ export class Snitchy {
 
     return data;
   }
-
 
   /**
    * Get data from variables

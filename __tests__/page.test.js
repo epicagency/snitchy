@@ -182,7 +182,7 @@ it('pushes only custom [namespace] layers', () => {
     components: {},
   };
 
-  document.body.dataset.namespace = 'home';
+  document.body.dataset.snitchyPage = 'home';
   snitchy.load(variables);
 
   const result = snitchy.page('layer');
@@ -216,7 +216,7 @@ it('pushes global and custom layers', () => {
     components: {},
   };
 
-  document.body.dataset.namespace = 'home';
+  document.body.dataset.snitchyPage = 'home';
   snitchy.load(variables);
 
   const result = snitchy.page('layer');
@@ -255,7 +255,7 @@ it('pushes overridendata-namespace', () => {
     components: {},
   };
 
-  document.body.dataset.namespace = 'home';
+  document.body.dataset.snitchyPage = 'home';
   snitchy.load(variables);
 
   const result = snitchy.page('layer', null, null, 'overriden');

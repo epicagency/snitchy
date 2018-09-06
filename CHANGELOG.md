@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.3.1] _(06/09/2018)_
+
+### Changed
+
+- `page()` do not push anymore
+
 ## [2.3.0] _(06/09/2018)_
 
 ### Changed

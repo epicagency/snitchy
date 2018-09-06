@@ -1,4 +1,5 @@
 /* global dataLayer */
+
 import trim from 'trim';
 import queryString from 'query-string';
 import {
@@ -234,7 +235,18 @@ export class Snitchy {
       return null;
     }
 
-    return this.push(data);
+    dataLayer = [data]; // eslint-disable-line no-global-assign
+
+    if (this.debug) {
+      console.info('📈 PUSH!', data);
+      if (console.table) {
+        console.table(data);
+      }
+    }
+
+    return data;
+    // DEV
+    // return this.push(data);
   }
 
   /**

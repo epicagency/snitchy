@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.3.0] _(06/09/2018)_
+
+### Changed
+
+- query-string for old browser support
+
+### Removed
+
+- remove aggregate-errors
+
 ## [2.2.0] _(05/09/2018)_
 
 ### Added

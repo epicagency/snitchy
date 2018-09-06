@@ -1,5 +1,3 @@
-import AggregateError from 'aggregate-error';
-
 /**
  * Check validity
  *
@@ -107,7 +105,9 @@ export function displayErrors(fail) {
     }
   });
 
-  throw new AggregateError(errors);
+  // DEV find replacement
+  // throw new AggregateError(errors);
+  throw new Error(errors[0]);
 }
 
 /**

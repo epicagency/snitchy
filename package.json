@@ -67,6 +67,7 @@
     "gzip-size": "^5.0.0",
     "jest": "^23.5.0",
     "npm-run-all": "^4.1.3",
+    "query-string": "^5.1.1",
     "rimraf": "^2.6.2",
     "webpack": "^4.17.1",
     "webpack-bundle-analyzer": "^2.13.1",
@@ -74,8 +75,7 @@
     "webpack-strip": "^0.1.0"
   },
   "dependencies": {
-    "aggregate-error": "^1.0.0",
-    "query-string": "^6.1.0",
+    "query-string": "5.1.1",
     "trim": "0.0.1"
   }
 }

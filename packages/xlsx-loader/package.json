@@ -1,0 +1,38 @@
+{
+  "name": "@snitchy/xlsx-loader",
+  "version": "0.0.1",
+  "description": "XLSX loader for Snitchy - DataLayer push made easy",
+  "main": "lib/loader.js",
+  "scripts": {
+    "precommit": "lint-staged",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/epicagency/snitchy.git"
+  },
+  "author": {
+    "name": "Thierry Michel",
+    "email": "thierry@epic.net",
+    "url": "http://epic.net"
+  },
+  "keywords": [
+    "epic",
+    "snitchy",
+    "gtm",
+    "google",
+    "tag",
+    "manager",
+    "datalayer",
+    "analytics",
+    "tracking",
+    "kpi",
+    "webpack",
+    "loader"
+  ],
+  "license": "SEE LICENSE IN UNLICENSE",
+  "bugs": {
+    "url": "https://github.com/epicagency/snitchy/issues"
+  },
+  "homepage": "https://github.com/epicagency/snitchy#readme"
+}

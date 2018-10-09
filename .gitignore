@@ -101,7 +101,8 @@ Temporary Items
 ### Custom ###
 
 # TODO path related to packages…
-# /dist
-# /esm
-# /lib
-# /report.html
+/packages/*/lib
+# /packages/*/dist
+# /packages/*/esm
+# /packages/*/lib
+# /packages/*/report.html

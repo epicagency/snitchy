@@ -2,29 +2,59 @@
   "name": "root",
   "private": true,
   "devDependencies": {
+    "@babel/cli": "^7.1.0",
+    "@babel/core": "^7.1.0",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
     "@commitlint/config-conventional": "^7.1.2",
     "@commitlint/config-lerna-scopes": "^7.1.2",
-    "babel-eslint": "^9.0.0",
-    "commitizen": "^2.10.1",
-    "cz-ccgls": "^0.1.1",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "10.0.1",
+    "babel-jest": "^23.6.0",
+    "babel-loader": "^8.0.2",
+    "commitizen": "3.0.2",
+    "cpx": "^1.5.0",
+    "cross-env": "^5.2.0",
+    "cz-ccgls": "0.2.0",
     "eslint": "^5.5.0",
     "husky": "^1.0.0-rc.13",
     "inquirer": "^5.2.0",
+    "jest": "^23.6.0",
     "lerna": "^3.3.0",
-    "lint-staged": "^7.2.2"
+    "lerna-alias": "^3.0.2",
+    "lint-staged": "^7.2.2",
+    "npm-run-all": "^4.1.3",
+    "rimraf": "^2.6.2",
+    "webpack": "^4.19.1",
+    "webpack-bundle-analyzer": "^3.0.2",
+    "webpack-cli": "^3.1.0",
+    "webpack-strip": "^0.1.0"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna run build",
+    "clean": "lerna clean",
     "commit": "npx git-cz || exit 0",
-    "commit-retry": "npx git-cz --retry || exit 0"
+    "commit-retry": "npx git-cz --retry || exit 0",
+    "lint": "eslint packages/**/src/**",
+    "ls": "lerna ls",
+    "prerelease": "npm run build",
+    "release": "lerna publish",
+    "test": "lerna exec yarn test",
+    "watch": "lerna run watch --parallel"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lerna run --concurrency 1 --stream precommit -- --silent"
+      "pre-commit": "lerna run --concurrency 1 --stream precommit"
     }
   },
   "config": {
     "commitizen": {
-      "path": "cz-ccgls"
+      "path": "./node_modules/cz-ccgls"
     }
   }
 }

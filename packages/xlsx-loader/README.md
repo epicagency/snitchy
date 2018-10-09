@@ -1,10 +1,17 @@
-# 📈 @snitchy/xlsx-loader
+# 👀 @snitchy/xlsx-loader
 
-![stability-experimental](https://img.shields.io/badge/stability-experimental-orange.svg)
-[![NPM version](https://img.shields.io/npm/v/@snitchy/xlsx-loader.svg?style=flat-square)](https://www.npmjs.com/package/@snitchy/xlsx-loader)
-[![Coverage Status](https://img.shields.io/coveralls/github/epicagency/snitchy/master.svg?style=flat-square)](https://travis-ci.com/epicagency/snitchy)
-[![License](https://img.shields.io/badge/license-UNLICENSE-green.svg?style=flat-square)](https://github.com/epicagency/snitchy/blob/master/UNLICENSE)
+> XLSX webpack loader for [Snitchy](https://github.com/epicagency/snitchy)
 
-> DataLayer push with `.xlsx` made easy
+## Install
 
-[Snitchy](https://github.com/epicagency/snitchy) loader to import variables from `.xlsx` file.
+Using npm:
+
+```sh
+npm install --save-dev @snitchy/xlsx-loader
+```
+
+or using yarn:
+
+```sh
+yarn add @snitchy/xlsx-loader --dev
+```

@@ -1,0 +1,59 @@
+{
+  "name": "@snitchy/utils",
+  "version": "0.0.2",
+  "description": "Utils for Snitchy - GTM DataLayer made easy",
+  "publishConfig": {
+    "access": "public"
+  },
+  "browser": "dist/snitchy-utils.min.js",
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "files": [
+    "dist",
+    "lib",
+    "esm"
+  ],
+  "scripts": {
+    "build": "npm-run-all build:commonjs build:umd build:umd:min build:esm",
+    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "build:commonjs:watch": "npm run build:commonjs -- --watch",
+    "build:esm": "cpx 'src/**/*.{mjs,js,json}' esm",
+    "build:esm:watch": "cpx 'src/**/*.{mjs,js,json}' esm --watch",
+    "build:umd": "cross-env BABEL_ENV=umd NODE_ENV=development webpack --progress --profile",
+    "build:umd:watch": "npm run build:umd -- --watch",
+    "build:umd:min": "cross-env BABEL_ENV=umd NODE_ENV=production webpack --progress --profile",
+    "clean": "rimraf lib dist esm",
+    "lint": "eslint src/**",
+    "precommit": "lint-staged",
+    "prepare": "npm-run-all clean test build",
+    "test": "eslint src/** && jest --coverage",
+    "watch": "jest --colors --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/epicagency/snitchy.git"
+  },
+  "author": {
+    "name": "Thierry Michel",
+    "email": "thierry@epic.net",
+    "url": "http://epic.net"
+  },
+  "keywords": [
+    "epic",
+    "snitchy",
+    "gtm",
+    "google",
+    "tag",
+    "manager",
+    "datalayer",
+    "analytics",
+    "tracking",
+    "kpi",
+    "utils"
+  ],
+  "license": "SEE LICENSE IN UNLICENSE",
+  "bugs": {
+    "url": "https://github.com/epicagency/snitchy/issues"
+  },
+  "homepage": "https://github.com/epicagency/snitchy#readme"
+}

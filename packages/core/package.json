@@ -1,13 +1,12 @@
 {
-  "name": "@snitchy/xlsx-loader",
-  "version": "0.1.0",
-  "description": "XLSX loader for Snitchy - GTM DataLayer made easy",
+  "name": "@snitchy/core",
+  "version": "0.0.2",
+  "description": "Snitchy - GTM DataLayer made easy",
   "publishConfig": {
     "access": "public"
   },
-  "main": "lib/loader.js",
+  "main": "lib/index.js",
   "scripts": {
-    "build": "babel src --out-dir lib",
     "lint": "eslint src/**",
     "precommit": "lint-staged",
     "test": "eslint src/** && jest --coverage",
@@ -32,9 +31,7 @@
     "datalayer",
     "analytics",
     "tracking",
-    "kpi",
-    "webpack",
-    "loader"
+    "kpi"
   ],
   "license": "SEE LICENSE IN UNLICENSE",
   "bugs": {
@@ -42,6 +39,7 @@
   },
   "homepage": "https://github.com/epicagency/snitchy#readme",
   "dependencies": {
-    "xlsx": "^0.14.0"
+    "@snitchy/parser": "^0.0.2",
+    "combine-errors": "^3.0.3"
   }
 }

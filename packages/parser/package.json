@@ -1,6 +1,6 @@
 {
   "name": "@snitchy/parser",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Parser for Snitchy - GTM DataLayer made easy",
   "publishConfig": {
     "access": "public"
@@ -57,7 +57,7 @@
   },
   "homepage": "https://github.com/epicagency/snitchy#readme",
   "dependencies": {
-    "@snitchy/utils": "^0.0.2",
+    "@snitchy/utils": "^0.1.0",
     "xregexp": "^4.2.0"
   }
 }

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import error from 'combine-errors';
-import Parser from '@snitchy/Parser'
+import Parser from '@snitchy/parser'
 import {
   kebabcase,
   camelcase,

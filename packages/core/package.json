@@ -15,8 +15,10 @@
     "build:umd": "cross-env BABEL_ENV=umd NODE_ENV=development webpack --progress --profile",
     "build:umd:watch": "npm run build:umd -- --watch",
     "build:umd:min": "cross-env BABEL_ENV=umd NODE_ENV=production webpack --progress --profile",
+    "clear": "rimraf dist esm lib",
     "lint": "eslint src/**",
     "precommit": "lint-staged",
+    "prepare": "npm-run-all clear test build",
     "test": "eslint src/** && jest --coverage",
     "watch": "jest --colors --watch"
   },

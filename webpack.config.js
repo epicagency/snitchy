@@ -26,8 +26,17 @@ const config = {
     rules: [
       {
         test: /\.(js|mjs)$/,
-        exclude: /node_modules/,
-        use: 'babel-loader',
+        // DEV
+        // exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            plugins: [
+              require('@babel/plugin-proposal-class-properties'), // eslint-disable-line global-require
+              require('@babel/plugin-proposal-object-rest-spread'), // eslint-disable-line global-require
+            ],
+          },
+        },
       },
     ],
   },

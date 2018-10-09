@@ -8,8 +8,10 @@
   "main": "lib/loader.js",
   "scripts": {
     "build": "babel src --out-dir lib",
+    "clear": "rimraf lib",
     "lint": "eslint src/**",
     "precommit": "lint-staged",
+    "prepare": "npm-run-all clear test build",
     "test": "eslint src/** && jest --coverage",
     "watch": "jest --colors --watch"
   },

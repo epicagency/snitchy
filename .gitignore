@@ -99,10 +99,7 @@ Temporary Items
 # End of https://www.gitignore.io/api/osx,node,visualstudiocode
 
 ### Custom ###
-
-# TODO path related to packages…
+/packages/*/dist
+/packages/*/esm
 /packages/*/lib
-# /packages/*/dist
-# /packages/*/esm
-# /packages/*/lib
-# /packages/*/report.html
+/packages/*/report.html

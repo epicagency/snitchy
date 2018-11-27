@@ -3,6 +3,7 @@
     "commonjs": {
       "presets": [
         ["@babel/env", {
+          "debug": true,
           "targets": {
             "browsers": [
               "last 2 versions",
@@ -10,7 +11,8 @@
             ]
           }
         }]
-      ]
+      ],
+      "plugins": ["@babel/plugin-transform-runtime"]
     },
     "esm": {
       "presets": [
@@ -22,6 +24,7 @@
     "umd": {
       "presets": [
         ["@babel/env", {
+          "debug": true,
           "modules": "commonjs",
           "targets": {
             "browsers": [
@@ -30,7 +33,8 @@
             ]
           }
         }]
-      ]
+      ],
+      "plugins": ["@babel/plugin-transform-runtime"]
     },
     "test": {
       "presets": ["@babel/env"]

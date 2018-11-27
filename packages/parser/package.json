@@ -57,6 +57,7 @@
   },
   "homepage": "https://github.com/epicagency/snitchy#readme",
   "dependencies": {
+    "@babel/runtime": "^7.1.5",
     "@snitchy/utils": "^0.1.0",
     "xregexp": "^4.2.0"
   }

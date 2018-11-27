@@ -5,7 +5,14 @@
   "publishConfig": {
     "access": "public"
   },
+  "browser": "dist/snitchy-core.min.js",
   "main": "lib/index.js",
+  "module": "esm/index.js",
+  "files": [
+    "dist",
+    "lib",
+    "esm"
+  ],
   "scripts": {
     "build": "npm-run-all build:commonjs build:umd build:umd:min build:esm",
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",

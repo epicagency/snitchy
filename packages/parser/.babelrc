@@ -12,7 +12,6 @@
           }
         }]
       ],
-      "plugins": ["@babel/plugin-transform-runtime"]
     },
     "esm": {
       "presets": [
@@ -34,7 +33,6 @@
           }
         }]
       ],
-      "plugins": ["@babel/plugin-transform-runtime"]
     },
     "test": {
       "presets": ["@babel/env"]

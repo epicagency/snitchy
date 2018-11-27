@@ -20,7 +20,7 @@ This module aims to reach 3 goals:
 
 1. One single source of truth aka one model for strutured data to be pushed
 2. Write once, use everywhere
-3. Use dynamic values  as easily as possible
+3. Use dynamic values as easily as possible
 
 TODO: (see old Snitchy)
 
@@ -34,3 +34,6 @@ TODO: (see old Snitchy)
 
 - `yarn install`
 - `lerna bootstrap`
+
+> Commit with `gz`
+> Publish with `npm run release`

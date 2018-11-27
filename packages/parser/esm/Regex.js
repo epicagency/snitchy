@@ -49,6 +49,7 @@ export default class Regex {
     []);
     /* eslint-enable object-property-newline */
 
+    XRegExp.install('natives');
     this.#r = XRegExp( // eslint-disable-line new-cap
       `^\\$
 

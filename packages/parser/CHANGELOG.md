@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.2"></a>
+## [0.1.2](https://github.com/epicagency/snitchy/compare/@snitchy/parser@0.1.1...@snitchy/parser@0.1.2) (2018-11-27)
+
+
+### Bug Fixes
+
+* **parser:** :arrow_down: Try to build "legacy" ([91ddda7](https://github.com/epicagency/snitchy/commit/91ddda7))
+* **parser:** :bug: delete commas… ([a2f9fed](https://github.com/epicagency/snitchy/commit/a2f9fed))
+
+
+
+
+
 <a name="0.1.1"></a>
 ## [0.1.1](https://github.com/epicagency/snitchy/compare/@snitchy/parser@0.1.0...@snitchy/parser@0.1.1) (2018-11-27)
 

@@ -1,6 +1,6 @@
 {
   "name": "@snitchy/core",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Snitchy - GTM DataLayer made easy",
   "publishConfig": {
     "access": "public"
@@ -56,7 +56,7 @@
   },
   "homepage": "https://github.com/epicagency/snitchy#readme",
   "dependencies": {
-    "@snitchy/parser": "^0.1.1",
+    "@snitchy/parser": "^0.1.2",
     "combine-errors": "^3.0.3"
   }
 }

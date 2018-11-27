@@ -349,10 +349,15 @@ export class Snitchy {
 
         /* istanbul ignore else */
         if (filter.match(/^.+\(.+\)$/)) {
-          const match = filter.match(/^(?<method>.+)\((?:'|")(?<arg>.+)(?:'|")\)$/);
-          const { method, arg } = match.groups;
+          const match = filter.match(/^(.+)\((?:'|")(.+)(?:'|")\)$/);
 
-          data = data[method](arg);
+          if (match === null) {
+            this._displayWarnings(`Invalid filter value for '${filter}' [@snitchy/core]`);
+          } else {
+            const [, method, arg] = match;
+
+            data = data[method](arg);
+          }
         }
       });
     }

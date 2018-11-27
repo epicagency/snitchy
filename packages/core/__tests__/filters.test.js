@@ -1,4 +1,4 @@
-/* global it, expect, afterEach */
+/* global it, expect, afterEach, jest */
 import snitchy from '../src';
 
 const variables = {
@@ -16,7 +16,14 @@ afterEach(() => {
   }
 
   document.body.innerHTML = '';
+
+  snitchy.scope = undefined;
 });
+
+global.console = {
+  ...global.console,
+  warn: jest.fn(),
+};
 
 it('filters with lowercase', () => {
   const expected = 'value';
@@ -42,7 +49,7 @@ it('filters with uppercase', () => {
   expect(result).toBe(expected);
 });
 
-it('filters with join', () => {
+it('filters with method', () => {
   const expected = 'foo-bar';
 
   snitchy.scope = {
@@ -52,6 +59,13 @@ it('filters with join', () => {
   const result = snitchy._getValue('$thisProp|join("-")');
 
   expect(result).toBe(expected);
+});
+
+it('filters with invalid method', () => {
+  snitchy.scope = {};
+  snitchy._getValue('$thisProp|join(-)');
+
+  expect(global.console.warn).toHaveBeenCalled();
 });
 
 it('filters with lowercase|join', () => {

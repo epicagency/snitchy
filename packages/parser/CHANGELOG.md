@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.1"></a>
+## [0.1.1](https://github.com/epicagency/snitchy/compare/@snitchy/parser@0.1.0...@snitchy/parser@0.1.1) (2018-11-27)
+
+
+### Bug Fixes
+
+* **parser:** :wrench: Try to build for legacy browser ([e03953a](https://github.com/epicagency/snitchy/commit/e03953a))
+
+
+
+
+
 <a name="0.1.0"></a>
 # [0.1.0](https://github.com/epicagency/snitchy/compare/@snitchy/parser@0.0.2...@snitchy/parser@0.1.0) (2018-10-09)
 

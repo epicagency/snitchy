@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/epicagency/snitchy/compare/@snitchy/parser@0.1.2...@snitchy/parser@0.1.3) (2018-11-27)
+
+
+### Bug Fixes
+
+* **parser:** :arrow_down: Try to support IE11… ([90455ef](https://github.com/epicagency/snitchy/commit/90455ef))
+
+
+
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/epicagency/snitchy/compare/@snitchy/parser@0.1.1...@snitchy/parser@0.1.2) (2018-11-27)
 

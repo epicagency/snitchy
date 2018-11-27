@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.5"></a>
+## [0.1.5](https://github.com/epicagency/snitchy/compare/@snitchy/core@0.1.4...@snitchy/core@0.1.5) (2018-11-27)
+
+**Note:** Version bump only for package @snitchy/core
+
+
+
+
+
 <a name="0.1.4"></a>
 ## [0.1.4](https://github.com/epicagency/snitchy/compare/@snitchy/core@0.1.3...@snitchy/core@0.1.4) (2018-11-27)
 

@@ -19,11 +19,12 @@ export default function() {
 
       let currentName;
       let currentLayer;
+      let currentEvent;
 
       variables[sheetName] = {};
 
       data.forEach(row => {
-        const { name, layer, key, value } = row;
+        const { name, layer, event, key, value } = row;
 
         if (name) {
           currentName = name;
@@ -33,8 +34,12 @@ export default function() {
           currentLayer = layer;
           variables[sheetName][currentName][currentLayer] = {};
         }
+        if (event) {
+          currentEvent = event;
+          variables[sheetName][currentName][currentLayer][currentEvent] = {};
+        }
 
-        variables[sheetName][currentName][currentLayer][key] = value;
+        variables[sheetName][currentName][currentLayer][currentEvent][key] = value;
       });
     });
 

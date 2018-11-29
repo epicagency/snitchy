@@ -2,47 +2,60 @@ export default {
   pages: {
     all: {
       page: {
-        title: '$tagTitle',
-        pagePath: '$url',
-        customDim: 'somthingCustom',
+        'page-load': {
+          title: '$tagTitle',
+          pagePath: '$url',
+          customDim: 'somthingCustom',
+        },
       },
       other: {
-        actions: 'somethingGlobal',
+        'page-other': {
+          actions: 'somethingGlobal',
+        },
       },
     },
     products: {
       page: {
-        category: '$thisCategory',
+        'page-load': {
+          category: '$thisCategory',
+        },
       },
       other: {
-        actions: 'somethingSpecific',
+        'page-other': {
+          actions: 'somethingSpecific',
+        },
       },
     },
     singleProduct: {
       page: {
-        productId: '$valProductId',
+        'page-load': {
+          productId: '$valProductId',
+        },
       },
     },
   },
   events: {
     search: {
       default: {
-        trigger: 'submit',
-        event: 'search',
-        eventValue: '$refInputValue',
-        customDim: 'somthingCustom',
+        search: {
+          trigger: 'submit',
+          eventValue: '$refInputValue',
+          customDim: 'somthingCustom',
+        },
       },
     },
     contact: {
       success: {
-        trigger: 'success',
-        event: 'formSubmit',
-        eventValue: '$refInputValue',
+        formSubmit: {
+          trigger: 'success',
+          eventValue: '$refInputValue',
+        },
       },
       error: {
-        trigger: 'error',
-        event: 'formError',
-        eventValue: '$refInputValue',
+        formError: {
+          trigger: 'error',
+          eventValue: '$refInputValue',
+        },
       },
     },
   },

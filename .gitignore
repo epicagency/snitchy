@@ -103,3 +103,6 @@ Temporary Items
 /packages/*/esm
 /packages/*/lib
 /packages/*/report.html
+
+# Excel temp files
+~$*.*

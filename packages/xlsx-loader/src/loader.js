@@ -19,7 +19,6 @@ export default function() {
 
       let currentName;
       let currentLayer;
-      let currentEvent;
 
       variables[sheetName] = {};
 
@@ -34,12 +33,16 @@ export default function() {
           currentLayer = layer;
           variables[sheetName][currentName][currentLayer] = {};
         }
+
         if (event) {
-          currentEvent = event;
-          variables[sheetName][currentName][currentLayer][currentEvent] = {};
+          variables[sheetName][currentName][currentLayer].event = event;
         }
 
-        variables[sheetName][currentName][currentLayer][currentEvent][key] = value;
+        if (!variables[sheetName][currentName][currentLayer].data) {
+          variables[sheetName][currentName][currentLayer].data = {};
+        }
+
+        variables[sheetName][currentName][currentLayer].data[key] = value;
       });
     });
 

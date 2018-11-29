@@ -2,33 +2,38 @@ export default {
   pages: {
     all: {
       page: {
-        'page-load': {
+        event: 'page-load',
+        data: {
           title: '$tagTitle',
           pagePath: '$url',
           customDim: 'somthingCustom',
         },
       },
       other: {
-        'page-other': {
+        event: 'page-other',
+        data: {
           actions: 'somethingGlobal',
         },
       },
     },
     products: {
       page: {
-        'page-load': {
+        event: 'page-load',
+        data: {
           category: '$thisCategory',
         },
       },
       other: {
-        'page-other': {
+        event: 'page-other',
+        data: {
           actions: 'somethingSpecific',
         },
       },
     },
     singleProduct: {
       page: {
-        'page-load': {
+        event: 'page-load',
+        data: {
           productId: '$valProductId',
         },
       },
@@ -37,7 +42,8 @@ export default {
   events: {
     search: {
       default: {
-        search: {
+        event: 'search',
+        data: {
           trigger: 'submit',
           eventValue: '$refInputValue',
           customDim: 'somthingCustom',
@@ -46,13 +52,15 @@ export default {
     },
     contact: {
       success: {
-        formSubmit: {
+        event: 'formSubmit',
+        data: {
           trigger: 'success',
           eventValue: '$refInputValue',
         },
       },
       error: {
-        formError: {
+        event: 'formError',
+        data: {
           trigger: 'error',
           eventValue: '$refInputValue',
         },

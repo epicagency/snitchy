@@ -1,8 +1,8 @@
 /* global it, expect */
-import Parser from '../src/Parser.js';
+import parser from '../src/parser.js';
 import rules from 'rules';
 
-const parser = new Parser(rules);
+parser.init(rules);
 
 it('parses "el" element', () => {
   const result = parser.parse('$elText');
@@ -31,52 +31,54 @@ it('parses "ref" element with ambiguous name', () => {
   expect(result).toHaveProperty('name', 'text');
 });
 
-// DEV
-// it('throws invalid value for missing param', () => {
-//   expect(() => {
-//     parser.parse('$el');
-//   }).toThrow('Invalid value');
-// });
-
-// it('throws invalid value for missing value', () => {
-//   expect(() => {
-//     parser.parse('$elAttr');
-//   }).toThrow('Invalid value');
-// });
-
-// it('throws invalid value for missing name and param', () => {
-//   expect(() => {
-//     parser.parse('$ref');
-//   }).toThrow('Invalid value');
-// });
-
-// it('throws invalid value for missing param', () => {
-//   expect(() => {
-//     parser.parse('$refName');
-//   }).toThrow('Invalid value');
-// });
-
-// it('throws invalid value for missing value', () => {
-//   expect(() => {
-//     parser.parse('$refNameAttr');
-//   }).toThrow('Invalid value');
-// });
-it('returns null for missing param', () => {
-  expect(parser.parse('$el')).toBeNull();
+// Errors
+it('throws error for missing param', () => {
+  expect(() => {
+    parser.parse('$el');
+  }).toThrow('Invalid param/value for [el]');
 });
 
-it('returns null for missing value', () => {
-  expect(parser.parse('$elAttr')).toBeNull();
+it('throws error for missing value', () => {
+  expect(() => {
+    parser.parse('$elAttr');
+  }).toThrow('Invalid param/value for [el]');
 });
 
-it('returns null for missing name and param', () => {
-  expect(parser.parse('$ref')).toBeNull();
+it('throws error for missing name and param', () => {
+  expect(() => {
+    parser.parse('$ref');
+  }).toThrow('Invalid param/value for [ref]');
 });
 
-it('returns null for missing param', () => {
-  expect(parser.parse('$refName')).toBeNull();
+it('throws error for missing param', () => {
+  expect(() => {
+    parser.parse('$refName');
+  }).toThrow('Invalid param/value for [ref]');
 });
 
-it('returns null for missing value', () => {
-  expect(parser.parse('$refNameAttr')).toBeNull();
+it('throws error for missing value', () => {
+  expect(() => {
+    parser.parse('$refNameAttr');
+  }).toThrow('Invalid param/value for [ref]');
 });
+
+// Null
+// it('returns null for missing param', () => {
+//   expect(parser.parse('$el')).toBeNull();
+// });
+
+// it('returns null for missing value', () => {
+//   expect(parser.parse('$elAttr')).toBeNull();
+// });
+
+// it('returns null for missing name and param', () => {
+//   expect(parser.parse('$ref')).toBeNull();
+// });
+
+// it('returns null for missing param', () => {
+//   expect(parser.parse('$refName')).toBeNull();
+// });
+
+// it('returns null for missing value', () => {
+//   expect(parser.parse('$refNameAttr')).toBeNull();
+// });

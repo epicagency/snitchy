@@ -1,15 +1,17 @@
 /* global it, expect */
-import Parser from '../src/Parser.js';
+import parser from '../src/parser.js';
 import rules from 'rules';
 
-const parser = new Parser(rules);
+parser.init(rules);
 
-// DEV
-// it('throws invalid value for unknown param', () => {
-//   expect(() => {
-//     parser.parse('$elAttrrr');
-//   }).toThrow('Invalid value');
-// });
-it('returns null for unknown param', () => {
-  expect(parser.parse('$elAttrrr')).toBeNull();
+// Errors
+it('throws error for unknown param', () => {
+  expect(() => {
+    parser.parse('$elAttrrr');
+  }).toThrow('Invalid param/value for [el]');
 });
+
+// Null
+// it('returns null for unknown param', () => {
+//   expect(parser.parse('$elAttrrr')).toBeNull();
+// });

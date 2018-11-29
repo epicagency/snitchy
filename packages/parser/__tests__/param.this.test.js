@@ -1,8 +1,8 @@
 /* global it, expect */
-import Parser from '../src/Parser.js';
+import parser from '../src/parser.js';
 import rules from 'rules';
 
-const parser = new Parser(rules);
+parser.init(rules);
 
 it('parses "this" param', () => {
   const result = parser.parse('$thisValue');
@@ -11,32 +11,34 @@ it('parses "this" param', () => {
   expect(result).toHaveProperty('value', 'value');
 });
 
-// DEV
-// it('throws invalid value for missing value', () => {
-//   expect(() => {
-//     parser.parse('$this');
-//   }).toThrow('Invalid value');
-// });
-
-// it('throws invalid value for unauthorized "el" element', () => {
-//   expect(() => {
-//     parser.parse('$elThisValue');
-//   }).toThrow('Invalid value');
-// });
-
-// it('throws invalid value for unauthorized "ref" element', () => {
-//   expect(() => {
-//     parser.parse('$refNameThisValue');
-//   }).toThrow('Invalid value');
-// });
-it('returns null for missing value', () => {
-  expect(parser.parse('$this')).toBeNull();
+// Errors
+it('throws error for missing value', () => {
+  expect(() => {
+    parser.parse('$this');
+  }).toThrow('Invalid param/value');
 });
 
-it('returns null for unauthorized "el" element', () => {
-  expect(parser.parse('$elThisValue')).toBeNull();
+it('throws error for unauthorized "el" element', () => {
+  expect(() => {
+    parser.parse('$elThisValue');
+  }).toThrow('Param [this] do not accept element [el]');
 });
 
-it('returns null for unauthorized "ref" element', () => {
-  expect(parser.parse('$refNameThisValue')).toBeNull();
+it('throws error for unauthorized "ref" element', () => {
+  expect(() => {
+    parser.parse('$refNameThisValue');
+  }).toThrow('Param [this] do not accept element [ref]');
 });
+
+// Null
+// it('returns null for missing value', () => {
+//   expect(parser.parse('$this')).toBeNull();
+// });
+
+// it('returns null for unauthorized "el" element', () => {
+//   expect(parser.parse('$elThisValue')).toBeNull();
+// });
+
+// it('returns null for unauthorized "ref" element', () => {
+//   expect(parser.parse('$refNameThisValue')).toBeNull();
+// });

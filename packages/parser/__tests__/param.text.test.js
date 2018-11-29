@@ -1,8 +1,8 @@
 /* global it, expect */
-import Parser from '../src/Parser.js';
+import parser from '../src/parser.js';
 import rules from 'rules';
 
-const parser = new Parser(rules);
+parser.init(rules);
 
 it('parses "text" param with "el" element', () => {
   const result = parser.parse('$elText');
@@ -16,22 +16,24 @@ it('parses "text" param with "ref" element', () => {
   expect(result).toHaveProperty('param', 'text');
 });
 
-// DEV
-// it('throws invalid value for missing element', () => {
-//   expect(() => {
-//     parser.parse('$text');
-//   }).toThrow('Invalid value');
-// });
-
-// it('throws invalid value for excess value', () => {
-//   expect(() => {
-//     parser.parse('$elTextValue');
-//   }).toThrow('Invalid value');
-// });
-it('returns null for missing element', () => {
-  expect(parser.parse('$text')).toBeNull();
+// Errors
+it('throws error for for missing element', () => {
+  expect(() => {
+    parser.parse('$text');
+  }).toThrow('Param [text] should use an element');
 });
 
-it('returns null for excess value', () => {
-  expect(parser.parse('$elTextValue')).toBeNull();
+it('throws error for excess value', () => {
+  expect(() => {
+    parser.parse('$elTextValue');
+  }).toThrow('Param [text] do not accept value [value]');
 });
+
+// Null
+// it('returns null for missing element', () => {
+//   expect(parser.parse('$text')).toBeNull();
+// });
+
+// it('returns null for excess value', () => {
+//   expect(parser.parse('$elTextValue')).toBeNull();
+// });

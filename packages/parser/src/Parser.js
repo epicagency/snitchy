@@ -1,12 +1,11 @@
-import Regex from './Regex.js';
-import { lcfirst } from '@snitchy/utils';
+import regex from './regex.js';
 
-export default class Parser {
-  #regex;
+const parser = {
+  init(rules) {
+    this._regex = regex.init(rules);
 
-  constructor(rules) {
-    this.#regex = new Regex(rules);
-  }
+    return this;
+  },
 
   /**
    * Parse a dynamic value
@@ -16,49 +15,35 @@ export default class Parser {
    * @returns {undefined}
    */
   parse(str) {
-    const res = this.#regex.exec(str);
+    const token = {
+      toParse: str.replace('$', ''),
+    };
 
-    if (res === null) {
-      // DEV
-      // throw new Error(`👀 @snitchy/parser: invalid value [no matching results for '${str}']`);
-
-      return null;
-    }
-
-    const { param, value, extra, element, name, defaults, filters, optional } = res;
-    const token = {};
-
-    token.param = param.toLowerCase();
-
-    if (value) {
-      token.value = lcfirst(value);
-    }
-
-    if (extra) {
-      token.extra = extra.toLowerCase();
-    }
-
-    if (element) {
-      token.element = element;
-
-      if (name) {
-        token.name = lcfirst(name);
+    try {
+      if (this._regex.check('element', token)) {
+        this._regex.check('name', token);
       }
-    }
 
-    if (defaults) {
-      token.defaults = defaults;
-    }
+      /* istanbul ignore else */
+      if (this._regex.check('param', token)) {
+        this._regex.check('extra', token);
+        this._regex.check('value', token);
+      }
 
-    if (filters) {
-      /* istanbul ignore next */
-      token.filters = filters.match('|') ? filters.split('|') : [filters];
-    }
+      this._regex.check('filters', token);
+      this._regex.check('defaults', token);
+      this._regex.check('optional', token);
 
-    if (optional) {
-      token.optional = true;
-    }
+      // DEV (fixed with throwed errors?)
+      // if (!token.element && !token.param) {
+      //   token.valid = false;
+      // }
 
-    return token;
-  }
-}
+      return token;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+};
+
+export default parser;

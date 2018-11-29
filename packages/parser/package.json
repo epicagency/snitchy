@@ -6,8 +6,8 @@
     "access": "public"
   },
   "browser": "dist/snitchy-parser.min.js",
-  "main": "lib/Parser.js",
-  "module": "esm/Parser.js",
+  "main": "lib/parser.js",
+  "module": "esm/parser.js",
   "files": [
     "dist",
     "lib",

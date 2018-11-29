@@ -33,5 +33,5 @@ it('throws error on missing dataLayer', () => {
     snitchy._push({});
   }
 
-  expect(push).toThrow('No "dataLayer" found. Check if GTM is correctly configured.');
+  expect(push).toThrow('No "dataLayer" found. Check if GTM is correctly configured');
 });

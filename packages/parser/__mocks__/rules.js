@@ -101,11 +101,11 @@ export default {
   },
   // Elements
   el: {
-    pattern: { type: 'element', useName: false },
+    pattern: { type: 'element', useName: false, useParam: true },
     root: context => context.scope.$el,
   },
   ref: {
-    pattern: { type: 'element', useName: true },
+    pattern: { type: 'element', useName: true, useParam: true },
     root: (context, name) => context.scope.$refs[name],
   },
 };

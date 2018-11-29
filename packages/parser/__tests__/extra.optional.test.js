@@ -1,8 +1,8 @@
 /* global it, expect */
-import Parser from '../src/Parser.js';
+import parser from '../src/parser.js';
 import rules from 'rules';
 
-const parser = new Parser(rules);
+parser.init(rules);
 
 it('parses optional flag', () => {
   const result = parser.parse('$elText?');

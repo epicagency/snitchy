@@ -1,8 +1,8 @@
 /* global it, expect */
-import Parser from '../src/Parser.js';
+import parser from '../src/parser.js';
 import rules from 'rules';
 
-const parser = new Parser(rules);
+parser.init(rules);
 
 it('parses "attr" param with simple value', () => {
   const result = parser.parse('$attrValue');
@@ -39,12 +39,14 @@ it('parses "attr" param with "ref" element', () => {
   expect(result).toHaveProperty('value', 'value');
 });
 
-// DEV
-// it('throws invalid value for missing value', () => {
-//   expect(() => {
-//     parser.parse('$attr');
-//   }).toThrow('Invalid value');
-// });
-it('returns null for missing value', () => {
-  expect(parser.parse('$attr')).toBeNull();
+// Errors
+it('throws error for missing value', () => {
+  expect(() => {
+    parser.parse('$attr');
+  }).toThrow('Invalid param/value');
 });
+
+// Null
+// it('returns null for missing value', () => {
+//   expect(parser.parse('$attr')).toBeNull();
+// });

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import error from 'combine-errors';
-import Parser from '@snitchy/parser'
+import parser from '@snitchy/parser'
 import {
   kebabcase,
   camelcase,
@@ -36,7 +36,7 @@ export class Snitchy {
   }) {
     this.#options = options;
     // Dev: quid if rules to add?
-    this.#parser = new Parser(rules);
+    this.#parser = parser.init(rules);
     this.#rules = rules;
   }
 
@@ -61,17 +61,17 @@ export class Snitchy {
    */
   load(variables) {
     if (!variables) {
-      this._displayErrors(`Invalid parameter "variables" [${variables}]`);
+      this._displayErrors(`Invalid parameter "variables" [${variables}] [@snitchy/core]`);
     }
 
     Object.keys(variables).forEach(key => {
       // No additional properties
       if (!key.match(/pages|events/)) {
-        this._displayErrors(`Invalid option "${key}" [no additional data]`);
+        this._displayErrors(`Invalid option "${key}" [no additional data] [@snitchy/core]`);
       }
       // Should be an object
       if (key.match(/pages|events/) && typeof variables[key] !== 'object') {
-        this._displayErrors(`Invalid option "${key}" [should be an object]`);
+        this._displayErrors(`Invalid option "${key}" [should be an object] [@snitchy/core]`);
       }
     });
 
@@ -79,7 +79,7 @@ export class Snitchy {
       this.#variables = validate(variables);
     } catch (error) {
       /* istanbul ignore next */
-      this._displayErrors('Invalid variables data !', error);
+      this._displayErrors('Invalid variables data ! [@snitchy/core]', error);
     }
   }
 
@@ -101,7 +101,7 @@ export class Snitchy {
     }
 
     if (typeof layer !== 'string' && !Array.isArray(layer)) {
-      this._displayWarnings('Expected argument "layer" to be of type `string` or `array`');
+      this._displayWarnings('Expected argument "layer" to be of type `string` or `array` [@snitchy/core]');
 
       return null;
     }
@@ -117,7 +117,7 @@ export class Snitchy {
 
     if (ns) {
       if (typeof ns !== 'string') {
-        this._displayWarnings('Expected argument "name" to be of type `string`');
+        this._displayWarnings('Expected argument "name" to be of type `string` [@snitchy/core]');
 
         return null;
       }
@@ -148,7 +148,7 @@ export class Snitchy {
       };
 
       if (Object.keys(data[layer]).length === 0) {
-        this._displayWarnings(`No data found for "${layer}" layer on "${namespace || 'all'}" page.`);
+        this._displayWarnings(`No data found for "${layer}" layer on "${namespace || 'all'}" page [@snitchy/core]`);
 
         delete data[layer];
       } else {
@@ -170,7 +170,7 @@ export class Snitchy {
     });
 
     if (Object.keys(data).length === 0) {
-      this._displayWarnings(`No data found on "${namespace || 'all'}" page.`);
+      this._displayWarnings(`No data found on "${namespace || 'all'}" page [@snitchy/core]`);
 
       return null;
     }
@@ -202,7 +202,7 @@ export class Snitchy {
     }
 
     if (typeof name !== 'string') {
-      this._displayErrors('Expected argument "name" to be of type `string`');
+      this._displayErrors('Expected argument "name" to be of type `string` [@snitchy/core]');
     }
 
     this.values = values;
@@ -255,7 +255,7 @@ export class Snitchy {
       try {
         dataLayer.push(data);
       } catch (err) {
-        this._displayErrors('No "dataLayer" found. Check if GTM is correctly configured.', err);
+        this._displayErrors('No "dataLayer" found. Check if GTM is correctly configured [@snitchy/core]', err);
       }
     }
 
@@ -267,7 +267,7 @@ export class Snitchy {
     if (this.variables) {
       return true;
     } else {
-      this._displayErrors('No "variables" found. Are they loaded?');
+      this._displayErrors('No "variables" found. Are they loaded? [@snitchy/core]');
     }
   }
 
@@ -303,74 +303,82 @@ export class Snitchy {
    * @memberof Snitchy
    */
   _getValue(str) {
-    // Get token from parser
-    const token = this.#parser.parse(str);
+    try {
+      // Get token from parser
+      const token = this.#parser.parse(str);
 
-    if (token === null) {
-      this._displayWarnings(`Invalid value, no matching results for '${str}' [@snitchy/parser]`);
+      // DEV (fixed with throwed errors?)
+      // if (token === null) {
+      //   this._displayWarnings(`Invalid value, no matching results for '${str}' [@snitchy/parser]`);
+
+      //   return null;
+      // }
+      const { param, value: rawValue, extra, element, name, filters, defaults, optional } = token;
+
+      // Main rule comes from 'param'
+      const rule = this.#rules[param];
+      const value = rule.format ? rule.format(rawValue) : rawValue;
+      const getters = rule.getters(value, extra);
+
+      let root = null;
+      let data = null;
+
+      if (element) {
+        // Get 'root()' of rule 'element'
+        root = rules[element].root(this, name);
+      } else {
+        // For 'param', it's optional
+        if (rule.root) {
+          root = rule.root(this, name);
+        } else {
+          root = document.documentElement.querySelector(`[${value}]`) || document.documentElement;
+        }
+      }
+
+      data = this._processValue(root, getters);
+
+      if (filters) {
+        filters.forEach(filter => {
+          /* istanbul ignore else */
+          if (filter.match(/lowercase/)) {
+            data = data.toLowerCase();
+          }
+
+          /* istanbul ignore else */
+          if (filter.match(/uppercase/)) {
+            data = data.toUpperCase();
+          }
+
+          /* istanbul ignore else */
+          if (filter.match(/^.+\(.+\)$/)) {
+            const match = filter.match(/^(.+)\((?:'|")(.+)(?:'|")\)$/);
+
+            if (match === null) {
+              this._displayWarnings(`Invalid filter value for '${filter}' [@snitchy/core]`);
+            } else {
+              const [, method, arg] = match;
+
+              data = data[method](arg);
+            }
+          }
+        });
+      }
+
+      if(!data && defaults) {
+        data = defaults;
+      }
+
+      if (!data && !optional) {
+        this._displayWarnings(`No value found for '${str}', try 'defaults' or optional parameter [@snitchy/core]`);
+      }
+
+      return data;
+    } catch (error) {
+      this._displayWarnings(`Invalid value, no matching results for '${str}' [@snitchy/core]`);
+      this._displayWarnings(error);
 
       return null;
     }
-    const { param, value: rawValue, extra, element, name, filters, defaults, optional } = token;
-
-    // Main rule comes from 'param'
-    const rule = this.#rules[param];
-    const value = rule.format ? rule.format(rawValue) : rawValue;
-    const getters = rule.getters(value, extra);
-
-    let root = null;
-    let data = null;
-
-    if (element) {
-      // Get 'root()' of rule 'element'
-      root = rules[element].root(this, name);
-    } else {
-      // For 'param', it's optional
-      if (rule.root) {
-        root = rule.root(this, name);
-      } else {
-        root = document.documentElement.querySelector(`[${value}]`) || document.documentElement;
-      }
-    }
-
-    data = this._processValue(root, getters);
-
-    if (filters) {
-      filters.forEach(filter => {
-        /* istanbul ignore else */
-        if (filter.match(/lowercase/)) {
-          data = data.toLowerCase();
-        }
-
-        /* istanbul ignore else */
-        if (filter.match(/uppercase/)) {
-          data = data.toUpperCase();
-        }
-
-        /* istanbul ignore else */
-        if (filter.match(/^.+\(.+\)$/)) {
-          const match = filter.match(/^(.+)\((?:'|")(.+)(?:'|")\)$/);
-
-          if (match === null) {
-            this._displayWarnings(`Invalid filter value for '${filter}' [@snitchy/core]`);
-          } else {
-            const [, method, arg] = match;
-
-            data = data[method](arg);
-          }
-        }
-      });
-    }
-
-    if(!data && defaults) {
-      data = defaults;
-    }
-
-    if (!data && !optional) {
-      this._displayWarnings(`No value found for '${str}', try 'defaults' or optional parameter`);
-    }
-
-    return data;
   }
 
   _processValue(root, getters) {

@@ -105,7 +105,7 @@ export default {
   },
   // Elements
   el: {
-    pattern: { type: 'element', useName: false },
+    pattern: { type: 'element', useName: false, useParam: true },
     root: context => context.scope.$el,
     // From kapla-plugin
     // const attr = key;
@@ -114,7 +114,7 @@ export default {
     // return scope.$el.attr || scope.$el.getAttribute(htmlAttr) || trim(scope.$el[attr]);
   },
   ref: {
-    pattern: { type: 'element', useName: true },
+    pattern: { type: 'element', useName: true, useParam: true },
     root: (context, name) => context.scope.$refs[name],
   },
 };

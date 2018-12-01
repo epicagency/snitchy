@@ -1,70 +1,78 @@
 export default {
   pages: {
     all: {
-      page: {
+      page: [{
         event: 'page-load',
         data: {
           title: '$tagTitle',
           pagePath: '$url',
-          customDim: 'somthingCustom',
+          customDim: 'somethingCustom',
         },
-      },
-      other: {
-        event: 'page-other',
-        data: {
-          actions: 'somethingGlobal',
+      }],
+      offline: [
+        {
+          event: 'page-load',
+          data: {
+            actions: 'somethingGlobal',
+          },
         },
-      },
+        {
+          event: 'page-refresh',
+          data: {
+            actions: 'somethingDifferent',
+          },
+        },
+      ],
     },
     products: {
-      page: {
+      page: [{
         event: 'page-load',
         data: {
           category: '$thisCategory',
         },
-      },
-      other: {
-        event: 'page-other',
+      }],
+      offline: [{
+        event: 'page-refresh',
         data: {
           actions: 'somethingSpecific',
         },
-      },
+      }],
     },
     singleProduct: {
-      page: {
+      page: [{
         event: 'page-load',
         data: {
           productId: '$valProductId',
         },
-      },
+      }],
     },
   },
   events: {
     search: {
-      default: {
+      default: [{
         event: 'search',
         data: {
           trigger: 'submit',
           eventValue: '$refInputValue',
-          customDim: 'somthingCustom',
+          customDim: 'somethingCustom',
         },
-      },
+      }],
     },
     contact: {
-      success: {
+      success: [{
         event: 'formSubmit',
         data: {
           trigger: 'success',
           eventValue: '$refInputValue',
         },
-      },
-      error: {
+      }],
+      error: [{
         event: 'formError',
         data: {
           trigger: 'error',
           eventValue: '$refInputValue',
         },
-      },
+      }],
     },
   },
 };

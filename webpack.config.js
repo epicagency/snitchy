@@ -1,4 +1,3 @@
-const WebpackStrip = require('webpack-strip');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -32,8 +31,8 @@ const config = {
           loader: 'babel-loader',
           options: {
             plugins: [
-              require('@babel/plugin-proposal-class-properties'), // eslint-disable-line global-require
-              require('@babel/plugin-proposal-object-rest-spread'), // eslint-disable-line global-require
+              '@babel/plugin-proposal-class-properties',
+              '@babel/plugin-proposal-object-rest-spread',
             ],
           },
         },
@@ -50,12 +49,9 @@ const config = {
 };
 
 if (isProd) {
-  config.module.rules.push({
-    test: /\.js$/,
-    use: [
-      { loader: WebpackStrip.loader('debug', 'console.info') },
-    ],
-  });
+  config.module.rules
+    .find(rule => rule.use.loader === 'babel-loader')
+    .use.options.plugins.push('transform-remove-console');
 }
 
 module.exports = config;

@@ -16,14 +16,22 @@ export default function() {
     .forEach(sheetName => {
       const worksheet = workbook.Sheets[sheetName];
       const data = xlsx.utils.sheet_to_json(worksheet);
+      const last = data.length - 1;
 
       let currentName;
       let currentLayer;
+      let currentEvent = {};
 
       variables[sheetName] = {};
 
-      data.forEach(row => {
+      data.forEach((row, i) => {
         const { name, layer, event, key, value } = row;
+
+        // If previous event for previous layer, push it before new row
+        if (currentEvent.event && layer && currentLayer !== layer) {
+          variables[sheetName][currentName][currentLayer].push(currentEvent);
+          currentEvent = {};
+        }
 
         if (name) {
           currentName = name;
@@ -31,18 +39,31 @@ export default function() {
         }
         if (layer) {
           currentLayer = layer;
-          variables[sheetName][currentName][currentLayer] = {};
+          variables[sheetName][currentName][currentLayer] = [];
+        }
+
+        // If previous event for same layer, push it before new event
+        if (currentEvent.event && event && currentEvent.event !== event) {
+          variables[sheetName][currentName][currentLayer].push(currentEvent);
+          currentEvent = {};
         }
 
         if (event) {
-          variables[sheetName][currentName][currentLayer].event = event;
+          // Set a new currentEvent
+          currentEvent = {
+            event,
+            data: {
+              [key]: value,
+            },
+          };
         }
 
-        if (!variables[sheetName][currentName][currentLayer].data) {
-          variables[sheetName][currentName][currentLayer].data = {};
-        }
+        currentEvent.data[key] = value;
 
-        variables[sheetName][currentName][currentLayer].data[key] = value;
+        // If existing event and last row, push it before end
+        if (currentEvent.event && i === last) {
+          variables[sheetName][currentName][currentLayer].push(currentEvent);
+        }
       });
     });
 

@@ -22,18 +22,19 @@ it('returns "null" if no variables', () => {
   expect(result).toBeNull();
 });
 
-it('has no defaults', () => {
+it('throws error on invalid name', () => {
   const variables = {
     pages: {},
     events: {},
   };
 
   snitchy.load(variables);
-  snitchy.page();
 
-  expect(global.console.warn).toHaveBeenCalled();
-  expect(snitchy.values).toBeUndefined();
-  expect(snitchy.scope).toBeUndefined();
+  function page() { // eslint-disable-line require-jsdoc
+    snitchy.page({});
+  }
+
+  expect(page).toThrow('Expected argument "name" to be of type `string`');
 });
 
 it('displays warning on invalid layer', () => {
@@ -43,43 +44,37 @@ it('displays warning on invalid layer', () => {
   };
 
   snitchy.load(variables);
-  const result = snitchy.page({});
+  const result = snitchy.page('name', { layer: {}});
 
   expect(result).toBeNull();
   expect(global.console.warn).toHaveBeenCalled();
 });
 
-it('displays warning on missing layer', () => {
+it('displays warning on invalid event', () => {
   const variables = {
-    pages: {
-      all: {
-        otherLayer: {},
-      },
-    },
+    pages: {},
     events: {},
   };
 
   snitchy.load(variables);
-  const result = snitchy.page('layer');
+  const result = snitchy.page('name', {
+    layer: 'layer',
+    event: {},
+  });
 
   expect(result).toBeNull();
   expect(global.console.warn).toHaveBeenCalled();
 });
 
-
-it('displays warning on invalid namespace layer', () => {
+it('has no defaults', () => {
   const variables = {
-    pages: {
-      all: {
-        layer: {},
-      },
-    },
+    pages: {},
     events: {},
   };
 
   snitchy.load(variables);
-  const result = snitchy.page('layer', null, null, ['invalid']);
+  snitchy.page();
 
-  expect(result).toBeNull();
-  expect(global.console.warn).toHaveBeenCalled();
+  expect(snitchy.values).toBeUndefined();
+  expect(snitchy.scope).toBeUndefined();
 });

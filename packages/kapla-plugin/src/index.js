@@ -1,5 +1,7 @@
+/*
+DEV
 import { Multimap } from '@snitchy/multimap';
-
+*/
 /**
  * Group by
  *
@@ -7,6 +9,7 @@ import { Multimap } from '@snitchy/multimap';
  * @param {string} key key for grouping
  * @returns {object} grouped object
  */
+/*
 function groupBy(obj, key) {
   return Object.keys(obj).reduce((acc, cur) => {
     const o = obj[cur];
@@ -30,7 +33,7 @@ export default class SnitchyKaplaPlugin {
     this.triggersByElement = new Multimap();
     this.listenersByElement = new Multimap();
   }
-  init() {}
+  init() {} // eslint-disable-line class-methods-use-this, no-empty-function
   bindAll(instance, events) {
     const { context, slug } = instance;
     const { element } = context;
@@ -90,3 +93,4 @@ export default class SnitchyKaplaPlugin {
     }
   }
 }
+*/

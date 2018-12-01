@@ -207,7 +207,7 @@ module.exports = {
     'no-useless-return': 2,
     'no-var': 2,
     'no-void': 2,
-    'no-warning-comments': 2,
+    'no-warning-comments': 1,
     'no-whitespace-before-property': 2,
     'no-with': 2,
     'object-shorthand': 2,

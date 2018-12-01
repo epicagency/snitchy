@@ -9,17 +9,7 @@ global.console = {
 
 it('displays logs on "push()"', () => {
   snitchy.debug = true;
-  snitchy._push({});
-
-  expect(global.console.info).toHaveBeenCalled();
-  expect(global.console.table).toHaveBeenCalled();
-});
-
-it('displays logs on "set()"', () => {
-  window.dataLayer = undefined;
-
-  snitchy.debug = true;
-  snitchy._set({});
+  snitchy.push({});
 
   expect(global.console.info).toHaveBeenCalled();
   expect(global.console.table).toHaveBeenCalled();
@@ -30,7 +20,7 @@ it('throws error on missing dataLayer', () => {
   snitchy.debug = false;
 
   function push() { // eslint-disable-line require-jsdoc
-    snitchy._push({});
+    snitchy.push({});
   }
 
   expect(push).toThrow('No "dataLayer" found. Check if GTM is correctly configured');

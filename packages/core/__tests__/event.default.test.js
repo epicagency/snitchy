@@ -1,5 +1,10 @@
-/* global it, expect, afterEach */
+/* global it, expect, jest, afterEach */
 import snitchy from '../src';
+
+global.console = {
+  ...global.console,
+  warn: jest.fn(),
+};
 
 afterEach(() => {
   const el = document.body;
@@ -17,6 +22,60 @@ it('returns "null" if no variables', () => {
   expect(result).toBeNull();
 });
 
+it('throws error on invalid name', () => {
+  const variables = {
+    pages: {},
+    events: {},
+  };
+
+  snitchy.load(variables);
+
+  function event() { // eslint-disable-line require-jsdoc
+    snitchy.event({});
+  }
+
+  expect(event).toThrow('Expected argument "name" to be of type `string`');
+});
+
+it('displays warning on invalid layer', () => {
+  const variables = {
+    pages: {},
+    events: {},
+  };
+
+  snitchy.load(variables);
+  const result = snitchy.event('name', { layer: {} });
+
+  expect(result).toBeNull();
+  expect(global.console.warn).toHaveBeenCalled();
+});
+
+it('displays warning on invalid event', () => {
+  const variables = {
+    pages: {},
+    events: {},
+  };
+
+  snitchy.load(variables);
+  const result = snitchy.event('name', { event: {} });
+
+  expect(result).toBeNull();
+  expect(global.console.warn).toHaveBeenCalled();
+});
+
+it('displays warning on invalid trigger', () => {
+  const variables = {
+    pages: {},
+    events: {},
+  };
+
+  snitchy.load(variables);
+  const result = snitchy.event('name', { trigger: {} });
+
+  expect(result).toBeNull();
+  expect(global.console.warn).toHaveBeenCalled();
+});
+
 it('has no defaults', () => {
   const variables = {
     pages: {},
@@ -32,21 +91,6 @@ it('has no defaults', () => {
   expect(event).toThrow('Expected argument "name" to be of type `string`');
   expect(snitchy.values).toBeUndefined();
   expect(snitchy.scope).toBeUndefined();
-});
-
-it('throws error on invalid name', () => {
-  const variables = {
-    pages: {},
-    events: {},
-  };
-
-  snitchy.load(variables);
-
-  function event() { // eslint-disable-line require-jsdoc
-    snitchy.event({});
-  }
-
-  expect(event).toThrow('Expected argument "name" to be of type `string`');
 });
 
 it('returns "null" if no name', () => {

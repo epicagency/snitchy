@@ -152,7 +152,19 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _camelcase = __webpack_require__(/*! ./camelcase */ \"./src/camelcase.js\");\n\nObject.keys(_camelcase).forEach(function (key) {\n  if (key === \"default\" || key === \"__esModule\") return;\n  Object.defineProperty(exports, key, {\n    enumerable: true,\n    get: function get() {\n      return _camelcase[key];\n    }\n  });\n});\n\nvar _kebabcase = __webpack_require__(/*! ./kebabcase */ \"./src/kebabcase.js\");\n\nObject.keys(_kebabcase).forEach(function (key) {\n  if (key === \"default\" || key === \"__esModule\") return;\n  Object.defineProperty(exports, key, {\n    enumerable: true,\n    get: function get() {\n      return _kebabcase[key];\n    }\n  });\n});\n\nvar _lcfirst = __webpack_require__(/*! ./lcfirst */ \"./src/lcfirst.js\");\n\nObject.keys(_lcfirst).forEach(function (key) {\n  if (key === \"default\" || key === \"__esModule\") return;\n  Object.defineProperty(exports, key, {\n    enumerable: true,\n    get: function get() {\n      return _lcfirst[key];\n    }\n  });\n});\n\nvar _ucfirst = __webpack_require__(/*! ./ucfirst */ \"./src/ucfirst.js\");\n\nObject.keys(_ucfirst).forEach(function (key) {\n  if (key === \"default\" || key === \"__esModule\") return;\n  Object.defineProperty(exports, key, {\n    enumerable: true,\n    get: function get() {\n      return _ucfirst[key];\n    }\n  });\n});\n\nvar _Multimap = __webpack_require__(/*! ./Multimap */ \"./src/Multimap.js\");\n\nObject.keys(_Multimap).forEach(function (key) {\n  if (key === \"default\" || key === \"__esModule\") return;\n  Object.defineProperty(exports, key, {\n    enumerable: true,\n    get: function get() {\n      return _Multimap[key];\n    }\n  });\n});\n\nvar _IndexedMultimap = __webpack_require__(/*! ./IndexedMultimap */ \"./src/IndexedMultimap.js\");\n\nObject.keys(_IndexedMultimap).forEach(function (key) {\n  if (key === \"default\" || key === \"__esModule\") return;\n  Object.defineProperty(exports, key, {\n    enumerable: true,\n    get: function get() {\n      return _IndexedMultimap[key];\n    }\n  });\n});\n\n//# sourceURL=webpack://Snitchy_utils/./src/index.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _isEmpty = __webpack_require__(/*! ./isEmpty */ \"./src/isEmpty.js\");\n\nObject.keys(_isEmpty).forEach(function (key) {\n  if (key === \"default\" || key === \"__esModule\") return;\n  Object.defineProperty(exports, key, {\n    enumerable: true,\n    get: function get() {\n      return _isEmpty[key];\n    }\n  });\n});\n\nvar _qs = __webpack_require__(/*! ./qs */ \"./src/qs.js\");\n\nObject.keys(_qs).forEach(function (key) {\n  if (key === \"default\" || key === \"__esModule\") return;\n  Object.defineProperty(exports, key, {\n    enumerable: true,\n    get: function get() {\n      return _qs[key];\n    }\n  });\n});\n\nvar _camelcase = __webpack_require__(/*! ./camelcase */ \"./src/camelcase.js\");\n\nObject.keys(_camelcase).forEach(function (key) {\n  if (key === \"default\" || key === \"__esModule\") return;\n  Object.defineProperty(exports, key, {\n    enumerable: true,\n    get: function get() {\n      return _camelcase[key];\n    }\n  });\n});\n\nvar _kebabcase = __webpack_require__(/*! ./kebabcase */ \"./src/kebabcase.js\");\n\nObject.keys(_kebabcase).forEach(function (key) {\n  if (key === \"default\" || key === \"__esModule\") return;\n  Object.defineProperty(exports, key, {\n    enumerable: true,\n    get: function get() {\n      return _kebabcase[key];\n    }\n  });\n});\n\nvar _lcfirst = __webpack_require__(/*! ./lcfirst */ \"./src/lcfirst.js\");\n\nObject.keys(_lcfirst).forEach(function (key) {\n  if (key === \"default\" || key === \"__esModule\") return;\n  Object.defineProperty(exports, key, {\n    enumerable: true,\n    get: function get() {\n      return _lcfirst[key];\n    }\n  });\n});\n\nvar _ucfirst = __webpack_require__(/*! ./ucfirst */ \"./src/ucfirst.js\");\n\nObject.keys(_ucfirst).forEach(function (key) {\n  if (key === \"default\" || key === \"__esModule\") return;\n  Object.defineProperty(exports, key, {\n    enumerable: true,\n    get: function get() {\n      return _ucfirst[key];\n    }\n  });\n});\n\nvar _Multimap = __webpack_require__(/*! ./Multimap */ \"./src/Multimap.js\");\n\nObject.keys(_Multimap).forEach(function (key) {\n  if (key === \"default\" || key === \"__esModule\") return;\n  Object.defineProperty(exports, key, {\n    enumerable: true,\n    get: function get() {\n      return _Multimap[key];\n    }\n  });\n});\n\nvar _IndexedMultimap = __webpack_require__(/*! ./IndexedMultimap */ \"./src/IndexedMultimap.js\");\n\nObject.keys(_IndexedMultimap).forEach(function (key) {\n  if (key === \"default\" || key === \"__esModule\") return;\n  Object.defineProperty(exports, key, {\n    enumerable: true,\n    get: function get() {\n      return _IndexedMultimap[key];\n    }\n  });\n});\n\n//# sourceURL=webpack://Snitchy_utils/./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/isEmpty.js":
+/*!************************!*\
+  !*** ./src/isEmpty.js ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.isEmpty = isEmpty;\n\n/**\n * Check if object is empty\n *\n * @param {object} obj object\n * @returns {boolean} is empty or not\n */\nfunction isEmpty(obj) {\n  return Object.keys(obj).length === 0;\n}\n\n//# sourceURL=webpack://Snitchy_utils/./src/isEmpty.js?");
 
 /***/ }),
 
@@ -177,6 +189,18 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n
 
 "use strict";
 eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.lcfirst = lcfirst;\n\n/**\n * Lowercase first\n *\n * @param {string} str string to format\n * @returns {string} formatted string\n */\nfunction lcfirst(str) {\n  return str.charAt(0).toLowerCase() + str.slice(1);\n}\n\n//# sourceURL=webpack://Snitchy_utils/./src/lcfirst.js?");
+
+/***/ }),
+
+/***/ "./src/qs.js":
+/*!*******************!*\
+  !*** ./src/qs.js ***!
+  \*******************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.qs = qs;\n\n/**\n * Get element by CSS selector.\n *\n * @param {string} selector CSS selector\n * @param {HTMLElement} scope DOM element to query inside\n * @returns {HTMLElement} queried DOM element\n */\nfunction qs(selector, scope) {\n  return (scope || document).querySelector(selector);\n}\n\n//# sourceURL=webpack://Snitchy_utils/./src/qs.js?");
 
 /***/ }),
 

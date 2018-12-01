@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/epicagency/snitchy/compare/@snitchy/utils@1.0.0...@snitchy/utils@1.0.1) (2018-12-01)
+
+
+### Bug Fixes
+
+* :rocket: failed publish ([1966f8b](https://github.com/epicagency/snitchy/commit/1966f8b))
+
+
+
+
+
 # [1.0.0](https://github.com/epicagency/snitchy/compare/@snitchy/utils@0.1.0...@snitchy/utils@1.0.0) (2018-12-01)
 
 

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/epicagency/snitchy/compare/@snitchy/parser@0.1.5...@snitchy/parser@1.0.0) (2018-12-01)
+
+
+### Code Refactoring
+
+* :recycle: End of refactoring ([bfbbb8d](https://github.com/epicagency/snitchy/commit/bfbbb8d))
+
+
+### BREAKING CHANGES
+
+* update dependencies and finalize variables data structure
+
+
+
+
+
 <a name="0.1.5"></a>
 ## [0.1.5](https://github.com/epicagency/snitchy/compare/@snitchy/parser@0.1.4...@snitchy/parser@0.1.5) (2018-11-29)
 

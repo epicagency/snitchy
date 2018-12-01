@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/epicagency/snitchy/compare/@snitchy/utils@0.1.0...@snitchy/utils@1.0.0) (2018-12-01)
+
+
+### Code Refactoring
+
+* :recycle: End of refactoring ([bfbbb8d](https://github.com/epicagency/snitchy/commit/bfbbb8d))
+
+
+### BREAKING CHANGES
+
+* update dependencies and finalize variables data structure
+
+
+
+
+
 <a name="0.1.0"></a>
 # [0.1.0](https://github.com/epicagency/snitchy/compare/@snitchy/utils@0.0.2...@snitchy/utils@0.1.0) (2018-10-09)
 

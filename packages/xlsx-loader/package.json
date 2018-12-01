@@ -1,6 +1,6 @@
 {
   "name": "@snitchy/xlsx-loader",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "XLSX loader for Snitchy - GTM DataLayer made easy",
   "publishConfig": {
     "access": "public"

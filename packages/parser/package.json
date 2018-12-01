@@ -59,5 +59,6 @@
   "dependencies": {
     "@snitchy/utils": "^1.0.0",
     "xregexp": "3.2.0"
-  }
+  },
+  "gitHead": "90a4a75316a8ba6ec65857b165d719b42e5a7f87"
 }

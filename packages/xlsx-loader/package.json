@@ -45,5 +45,6 @@
   "homepage": "https://github.com/epicagency/snitchy#readme",
   "dependencies": {
     "xlsx": "^0.14.0"
-  }
+  },
+  "gitHead": "90a4a75316a8ba6ec65857b165d719b42e5a7f87"
 }

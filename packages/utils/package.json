@@ -55,5 +55,6 @@
   "bugs": {
     "url": "https://github.com/epicagency/snitchy/issues"
   },
-  "homepage": "https://github.com/epicagency/snitchy#readme"
+  "homepage": "https://github.com/epicagency/snitchy#readme",
+  "gitHead": "90a4a75316a8ba6ec65857b165d719b42e5a7f87"
 }

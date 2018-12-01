@@ -5,4 +5,5 @@ module.exports = {
   collectCoverageFrom: [
     '<rootDir>/src/*.{js,jsx}',
   ],
+  testEnvironment: 'node',
 };

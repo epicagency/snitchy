@@ -210,10 +210,16 @@ export class Snitchy {
 
       if (name === 'all') {
         // Auto detect "name"
-        if (qs(`[${this.#options.pageAttribute}]`, document.documentElement)) {
-          // eslint-disable-next-line prefer-destructuring
-          names.push(qs(`[${this.#options.pageAttribute}]`, document.documentElement)
-            .getAttribute(this.#options.pageAttribute));
+        const pageAttrEl = qs(`[${this.#options.pageAttribute}]`, document.documentElement);
+
+        if (pageAttrEl) {
+          const pageAttrValue = pageAttrEl.getAttribute(this.#options.pageAttribute);
+
+          // If name exists into variables, use it!
+          /* istanbul ignore else */
+          if (this.variables.pages[pageAttrValue]) {
+            names.push(pageAttrValue);
+          }
         }
       } else {
         names.push(name);

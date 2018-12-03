@@ -1,6 +1,6 @@
 {
   "name": "@snitchy/core",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Snitchy - GTM DataLayer made easy",
   "publishConfig": {
     "access": "public"

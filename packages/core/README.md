@@ -1,4 +1,4 @@
-# 👀 @snitchy/parser
+# 👀 @snitchy/core
 
 > Core of [Snitchy](https://github.com/epicagency/snitchy)
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/epicagency/snitchy/compare/@snitchy/core@1.0.1...@snitchy/core@1.0.2) (2018-12-03)
+
+
+### Bug Fixes
+
+* **core:** :bug: fix missing variables name on page name auto detect ([4b37122](https://github.com/epicagency/snitchy/commit/4b37122))
+
+
+
+
+
 ## [1.0.1](https://github.com/epicagency/snitchy/compare/@snitchy/core@1.0.0...@snitchy/core@1.0.1) (2018-12-01)
 
 

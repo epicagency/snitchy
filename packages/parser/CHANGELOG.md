@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/epicagency/snitchy/compare/@snitchy/parser@1.0.1...@snitchy/parser@1.0.2) (2018-12-03)
+
+
+### Performance Improvements
+
+* **parser:** :zap: reduce build size ([6200f1c](https://github.com/epicagency/snitchy/commit/6200f1c))
+
+
+
+
+
 ## [1.0.1](https://github.com/epicagency/snitchy/compare/@snitchy/parser@1.0.0...@snitchy/parser@1.0.1) (2018-12-01)
 
 
